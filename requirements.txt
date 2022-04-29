@@ -1,0 +1,4 @@
+flask==2.0.2
+python-dotenv==0.20.0
+flask-sqlalchemy==2.5.1 
+flask-login==0.6.0
