@@ -20,7 +20,7 @@ class Book(db.Model):
     display_order = db.Column(db.Integer)
     tag = db.Column(db.String(5))
     content = db.Column(db.String(300))
-    id = db.Column(db.Integer(10))
+    id = db.Column(db.Integer)
     bib_record_id = db.Column(db.String(20))
     best_title = db.Column(db.String(200))
     bib_level_code = db.Column(db.String(5))
