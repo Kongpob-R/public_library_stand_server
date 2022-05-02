@@ -44,17 +44,16 @@ def details(bibidVerify):
     )
 
 
-@sock.route('/connection/<ereaderuid>')
-def connection(ws):
+@sock.route('/session/<ereaderuid>')
+def session(ws, ereaderuid):
     while True:
         data = ws.receive()
-        ws.send(data)
-
-
-@main.route('/download/<bibidVerify>')
-def download(bibidVerify):
-    book = db.session.query(Book).filter_by(record_id=bibidVerify).first()
-    return 'start downloading'
+        book = db.session.query(Book).filter_by(record_id=data).first()
+        output = {
+            'ereaderuid': ereaderuid,
+            'url': book.content
+        }
+        ws.send(output)
 
 
 @main.route('/importbooks')
