@@ -19,6 +19,7 @@ def index():
     keyword = request.args.get('keyword', default='', type=str)
     # request.form.get('catagory')
     books = []
+    matchBooks = []
     if len(keyword) > 2:
         matchBooks = db.session.query(Book).filter(
             or_(
@@ -26,7 +27,7 @@ def index():
                 Book.best_author_norm.like(keyword)
             )
         )
-    for book in matchBooks.all():
+    for book in matchBooks:
         books.append({'book': book, 'imageSrc': imageSrc.format(book.isbn)})
     return render_template(
         'index.html',
