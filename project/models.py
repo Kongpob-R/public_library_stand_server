@@ -11,7 +11,7 @@ class User(UserMixin, db.Model):
 
 
 class Book(db.Model):
-    record_id = db.Column(db.String(20), primary_key=True)
+    record_id = db.Column(db.String(30), primary_key=True)
     varfield_id = db.Column(db.String(10))
     marc_tag = db.Column(db.String(10))
     marc_ind1 = db.Column(db.String(10))

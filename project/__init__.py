@@ -1,4 +1,6 @@
+import imp
 import os
+from flask_sock import Sock
 from dotenv import load_dotenv
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -7,6 +9,7 @@ from flask_login import LoginManager
 # init SQLAlchemy so we can use it later in our models
 db = SQLAlchemy()
 load_dotenv()
+sock = Sock()
 
 
 def create_app():
@@ -17,6 +20,7 @@ def create_app():
         'SQLALCHEMY_DATABASE_URI')
 
     db.init_app(app)
+    sock.init_app(app)
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
