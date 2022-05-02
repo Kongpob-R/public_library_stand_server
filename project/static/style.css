@@ -1,5 +1,9 @@
+body {
+    background-color: #f1f1f1;
+}
+
 .sidenav {
-    color: #FFFFFF;
+    background-color: #FFFFFF;
     width: 0;
     position: fixed;
     z-index: 1;
@@ -40,10 +44,22 @@
     }
 }
 
-.container {
-    background-color: #D5D5D5;
+.userprofile {
+    width: 100%;
+    background-color: #FFFFFF;
 }
 
-.userprofile {
+form input {
+    padding: 20px;
+}
 
+.container {
+    background-color: #FFFFFF;
+    border-radius: 2px;
+}
+
+.container img {
+    width: 90px;
+    height: 120px;
+    padding: 10px;
 }
