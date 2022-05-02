@@ -1,6 +1,8 @@
 import os
+from re import T
 from dotenv import load_dotenv
-from flask import Blueprint, render_template, request
+from flask import Flask, Blueprint, render_template, request
+from flask_sock import Sock
 import requests
 from sqlalchemy import or_
 from . import db
@@ -8,24 +10,22 @@ from .models import Book
 
 main = Blueprint('main', __name__)
 imageSrc = 'http://syndetics.com/index.aspx/?isbn={0}/LC.gif&client=iiit&type=hw7'
+app = Flask(__name__)
+sock = Sock(app)
 
 
 @main.route('/')
 def index():
-    return render_template('index.html')
-
-
-@main.route('/', methods=['POST'])
-def index_post():
-    keyword = request.form.get('keyword')
+    keyword = request.args.get('keyword', default='', type=str)
     # request.form.get('catagory')
     books = []
-    matchBooks = db.session.query(Book).filter(
-        or_(
-            Book.best_title_norm.like(keyword),
-            Book.best_author_norm.like(keyword)
+    if len(keyword) > 2:
+        matchBooks = db.session.query(Book).filter(
+            or_(
+                Book.best_title_norm.like(keyword),
+                Book.best_author_norm.like(keyword)
+            )
         )
-    )
     for book in matchBooks.all():
         books.append({'book': book, 'imageSrc': imageSrc.format(book.isbn)})
     return render_template(
@@ -34,14 +34,27 @@ def index_post():
     )
 
 
-@main.route('/details/<bibid>')
-def details(bibid):
-    book = db.session.query(Book).filter_by(bib_record_id=bibid).first()
+@main.route('/details/<bibidVerify>')
+def details(bibidVerify):
+    book = db.session.query(Book).filter_by(bib_record_id=bibidVerify).first()
     return render_template(
         'details.html',
         imageSrc=imageSrc.format(book.isbn),
         book=book
     )
+
+
+@sock.route('/connection/<ereaderuid>')
+def connection(ws):
+    while True:
+        data = ws.receive()
+        ws.send(data)
+
+
+@main.route('/download/<bibidVerify>')
+def download(bibidVerify):
+    book = db.session.query(Book).filter_by(record_id=bibidVerify).first()
+    return 'start downloading'
 
 
 @main.route('/importbooks')
