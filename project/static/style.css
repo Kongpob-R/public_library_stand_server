@@ -2,6 +2,10 @@ body {
     background-color: #f1f1f1;
 }
 
+.navbar-menu {
+    background-color: #1f11;
+}
+
 .sidenav {
     background-color: #FFFFFF;
     width: 0;
@@ -56,6 +60,7 @@ form input {
 .container {
     background-color: #FFFFFF;
     border-radius: 2px;
+    padding: 10px;
 }
 
 .container img {

@@ -7,31 +7,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>E-book Reeader Content</title>
     <!-- <link href="{{ url_for('static', filename='fontawesomefree/css/all.min.css') }}" rel="stylesheet" type="text/css"> -->
-
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css" />
 </head>
 
 <body>
-    <div class="row">
-        <div class="two columns">
-            <div id="mySidenav" class="sidenav">
-                <div class="userprofile">
-                    <span>User Name</span>
-                    <a href="#">Log out</a>
+    <div class="navbar-menu">
+        <div class="row">
+            <div class="two columns">
+                <div id="mySidenav" class="sidenav">
+                    <div class="userprofile">
+                        <span>User Name</span>
+                        <a href="#">Log out</a>
+                    </div>
+                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                    <a href="#">About</a>
+                    <a href="#">Services</a>
+                    <a href="#">Clients</a>
+                    <a href="#">Contact</a>
+                    <div class="categorydropdown">
+                        Category
+                    </div>
                 </div>
-                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                <a href="#">About</a>
-                <a href="#">Services</a>
-                <a href="#">Clients</a>
-                <a href="#">Contact</a>
+                <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
             </div>
-            <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
-        </div>
-        <div class="six columns">
-            <form action="">
-                <input class="searchfield" type="text" placeholder="Keyword Search" id="searchfield">
-            </form>
+            <div class="six columns">
+                <form action="">
+                    <input class="searchfield" type="text" placeholder="Keyword Search" id="searchfield">
+                </form>
+            </div>
         </div>
     </div>
     <script>
@@ -49,6 +53,7 @@
             {% endblock %}
         </div>
     </div>
+
 </body>
 
 </html>
