@@ -1,14 +1,35 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="column is-4 is-offset-4">
-    <img src="{{ imageSrc }}" alt="">
-		<button id="download-btn" onclick="sendDownload()">Download</button>
-		<p>{{book.best_title}}</p>
-		<p>{{book.best_author}}</p>
-		<p>{{book.publish_year}}</p>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+<!-- <div class="section hero-body"> -->
+	<div class="row">
+		<h3>{{book.best_title}}</h3>
+	</div>
+	<div class="row">
+		<div class="eight columns">
+			<p>{{book.best_author}}</p>
+		</div>
+		<div class="four columns">
+			<span>{{book.publish_year}}</span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="bookcover">
+			<img src="{{ imageSrc }}" alt="No bookcover">
+		</div>
+	</div>
+	<div class="row">
+		<div class="centerbutton">
+			<button id="download-btn" onclick="sendDownload()">
+				Download to E-Reader
+			</button>
+		</div>
+	</div>
+<!-- </div> -->
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"
+	integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
+	crossorigin="anonymous"></script> -->
 <script type="text/javascript" charset="utf-8">
 	var socket = io.connect(window.location.origin);
 	const sendDownload = () => {

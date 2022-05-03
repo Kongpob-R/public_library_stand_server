@@ -14,7 +14,7 @@
 <body>
     <div class="navbar-menu">
         <div class="row">
-            <div class="two columns">
+            <div class="one columns">
                 <div id="mySidenav" class="sidenav">
                     <div class="userprofile">
                         <span>User Name</span>
@@ -40,69 +40,63 @@
     </div>
     <pre></pre>
     <div class="hero-body">
-        <div class="container has-text-centered">
-            {% block content %}
-            {% endblock %}
-        </div>
+        {% block content %}
+        {% endblock %}
     </div>
 
-<script type="text/javascript" charset="utf-8">
-    function openNav() {
-        document.getElementById("mySidenav").style.width = "250px";
-    }
+    <script type="text/javascript" charset="utf-8">
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "250px";
+        }
 
-    function closeNav() {
-        document.getElementById("mySidenav").style.width = "0";
-    }
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
 
-    const updateURLParameter = (url, param, paramVal) => {
-        var TheAnchor = null;
-        var newAdditionalURL = "";
-        var tempArray = url.split("?");
-        var baseURL = tempArray[0];
-        var additionalURL = tempArray[1];
-        var temp = "";
+        const updateURLParameter = (url, param, paramVal) => {
+            var TheAnchor = null;
+            var newAdditionalURL = "";
+            var tempArray = url.split("?");
+            var baseURL = tempArray[0];
+            var additionalURL = tempArray[1];
+            var temp = "";
 
-        if (additionalURL) 
-        {
-            var tmpAnchor = additionalURL.split("#");
-            var TheParams = tmpAnchor[0];
+            if (additionalURL) {
+                var tmpAnchor = additionalURL.split("#");
+                var TheParams = tmpAnchor[0];
                 TheAnchor = tmpAnchor[1];
-            if(TheAnchor)
-                additionalURL = TheParams;
+                if (TheAnchor)
+                    additionalURL = TheParams;
 
-            tempArray = additionalURL.split("&");
-            for (var i=0; i<tempArray.length; i++)
-            {
-                if(tempArray[i].split('=')[0] != param)
-                {
-                    newAdditionalURL += temp + tempArray[i];
-                    temp = "&";
+                tempArray = additionalURL.split("&");
+                for (var i = 0; i < tempArray.length; i++) {
+                    if (tempArray[i].split('=')[0] != param) {
+                        newAdditionalURL += temp + tempArray[i];
+                        temp = "&";
+                    }
                 }
-            }        
+            }
+            else {
+                var tmpAnchor = baseURL.split("#");
+                var TheParams = tmpAnchor[0];
+                TheAnchor = tmpAnchor[1];
+
+                if (TheParams)
+                    baseURL = TheParams;
+            }
+
+            if (TheAnchor)
+                paramVal += "#" + TheAnchor;
+
+            var rows_txt = temp + "" + param + "=" + paramVal;
+            return baseURL + "?" + newAdditionalURL + rows_txt;
         }
-        else
-        {
-            var tmpAnchor = baseURL.split("#");
-            var TheParams = tmpAnchor[0];
-                TheAnchor  = tmpAnchor[1];
 
-            if(TheParams)
-                baseURL = TheParams;
-        }
-
-        if(TheAnchor)
-            paramVal += "#" + TheAnchor;
-
-        var rows_txt = temp + "" + param + "=" + paramVal;
-        return baseURL + "?" + newAdditionalURL + rows_txt;
-    }
-
-    document.getElementById('searchfield').addEventListener('submit', event => {
-        const data = Object.fromEntries(new FormData(event.target).entries())
-        window.history.replaceState('', '', updateURLParameter(window.location.href, "keyword", data.keyword));
-    })
-</script>
+        document.getElementById('searchfield').addEventListener('submit', event => {
+            const data = Object.fromEntries(new FormData(event.target).entries())
+            window.history.replaceState('', '', updateURLParameter(window.location.href, "keyword", data.keyword));
+        })
+    </script>
 </body>
 
 </html>

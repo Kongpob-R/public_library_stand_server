@@ -3,13 +3,21 @@ body {
 }
 
 .navbar-menu {
-    background-color: #1f11;
+    background-color: #FFFFFF;
+    margin: -10px;
+    position: relative;
+}
+
+.navbar-menu input {
+    min-width: 200px;
+    margin-top: 2rem;
+    margin-bottom: -2.5rem;
 }
 
 .sidenav {
     background-color: #FFFFFF;
     width: 0;
-    position: fixed;
+    position: absolute;
     z-index: 1;
     top: 0;
     left: 0;
@@ -53,18 +61,22 @@ body {
     background-color: #FFFFFF;
 }
 
-form input {
-    padding: 20px;
-}
-
 .container {
     background-color: #FFFFFF;
     border-radius: 2px;
-    padding: 10px;
+    position: relative;
+    padding-inline-start: 10px;
 }
 
-.container img {
+.bookcoversmall img {
     width: 90px;
     height: 120px;
     padding: 10px;
+}
+
+.bookcover img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
 }
