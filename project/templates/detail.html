@@ -1,15 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
-<!-- <div class="section hero-body"> -->
+<div class="backtoindex">
+	<a href="">&#8810; Back to [search result] </a>
+</div>
+<div class="sectiondetail">
 	<div class="row">
 		<h3>{{book.best_title}}</h3>
 	</div>
 	<div class="row">
-		<div class="eight columns">
+		<div class="ten columns">
 			<p>{{book.best_author}}</p>
 		</div>
-		<div class="four columns">
+		<div class="two columns">
 			<span>{{book.publish_year}}</span>
 		</div>
 	</div>
@@ -25,7 +28,7 @@
 			</button>
 		</div>
 	</div>
-<!-- </div> -->
+</div>
 
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"
 	integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
