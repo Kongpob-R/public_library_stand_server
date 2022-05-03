@@ -2,6 +2,20 @@
 
 {% block content %}
 <div class="column is-4 is-offset-4">
-    
+    <img src="{{ imageSrc }}" alt="">
+		<button id="download-btn" onclick="sendDownload()">Download</button>
+		<p>{{book.best_title}}</p>
+		<p>{{book.best_author}}</p>
+		<p>{{book.publish_year}}</p>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+<script type="text/javascript" charset="utf-8">
+	var socket = io.connect(window.location.origin);
+	const sendDownload = () => {
+		socket.emit('get download url', {
+			'record_id': '{{ book.record_id }}',
+			'ereaderuid': '{{ current_user.name }}'
+		})
+	}
+</script>
 {% endblock %}

@@ -1,6 +1,5 @@
-import imp
 import os
-from flask_sock import Sock
+from flask_socketio import SocketIO, emit
 from dotenv import load_dotenv
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -9,7 +8,6 @@ from flask_login import LoginManager
 # init SQLAlchemy so we can use it later in our models
 db = SQLAlchemy()
 load_dotenv()
-sock = Sock()
 
 
 def create_app():
@@ -20,7 +18,20 @@ def create_app():
         'SQLALCHEMY_DATABASE_URI')
 
     db.init_app(app)
-    sock.init_app(app)
+    socketio = SocketIO(app)
+    socketio.run(app)
+
+    from .models import Book
+
+    @socketio.on('get download url')
+    def handle_get_download_url(json):
+        book = db.session.query(Book).filter_by(
+            record_id=json['record_id']).first()
+        json = {
+            'ereaderuid': json['ereaderuid'],
+            'url': book.content
+        }
+        emit('download', json)
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'

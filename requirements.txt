@@ -2,8 +2,5 @@ flask==2.0.2
 python-dotenv==0.20.0
 flask-sqlalchemy==2.5.1 
 flask-login==0.6.0
-<<<<<<< HEAD
-requests
-=======
-flask-sock==0.5.2
->>>>>>> c79559b606133821a20ea9fd16ba5cd79295aac7
+requests==2.27.1
+flask-socketio==5.1.2

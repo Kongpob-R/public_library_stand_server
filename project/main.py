@@ -1,8 +1,7 @@
 import os
-from re import T
 from dotenv import load_dotenv
-from flask import Flask, Blueprint, render_template, request
-from flask_sock import Sock
+from flask import Blueprint, render_template, request
+from flask_socketio import emit
 import requests
 from sqlalchemy import or_
 from . import db
@@ -10,8 +9,6 @@ from .models import Book
 
 main = Blueprint('main', __name__)
 imageSrc = 'http://syndetics.com/index.aspx/?isbn={0}/LC.gif&client=iiit&type=hw7'
-app = Flask(__name__)
-sock = Sock(app)
 
 
 @main.route('/')
@@ -35,26 +32,17 @@ def index():
     )
 
 
-@main.route('/details/<bibidVerify>')
-def details(bibidVerify):
-    book = db.session.query(Book).filter_by(bib_record_id=bibidVerify).first()
+@main.route('/detail')
+def detail():
+    record_id = request.args.get('record_id', default='', type=str)
+    book = db.session.query(Book).filter_by(record_id=record_id).first()
+    if book == None:
+        return 'Book details not found'
     return render_template(
-        'details.html',
+        'detail.html',
         imageSrc=imageSrc.format(book.isbn),
-        book=book
+        book=book,
     )
-
-
-@sock.route('/session/<ereaderuid>')
-def session(ws, ereaderuid):
-    while True:
-        data = ws.receive()
-        book = db.session.query(Book).filter_by(record_id=data).first()
-        output = {
-            'ereaderuid': ereaderuid,
-            'url': book.content
-        }
-        ws.send(output)
 
 
 @main.route('/importbooks')
