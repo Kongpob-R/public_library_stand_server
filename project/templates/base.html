@@ -94,7 +94,7 @@
 
         document.getElementById('searchfield').addEventListener('submit', event => {
             const data = Object.fromEntries(new FormData(event.target).entries())
-            window.history.replaceState('', '', updateURLParameter(window.location.href, "keyword", data.keyword));
+            window.history.replaceState('', '', updateURLParameter(window.location.origin, "keyword", data.keyword));
         })
     </script>
 </body>

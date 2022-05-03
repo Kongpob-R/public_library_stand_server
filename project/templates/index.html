@@ -1,25 +1,46 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% if keyword|length < 3 %}
+<div>keyword too short</div>
+{% elif books|length == 0 %}
+<div>No books match "{{ keyword }}"</div>
+{% else %}
+<div>{{ books|length }} book match "{{ keyword }}"</div>
+{% for book in books %}
 <div class="container">
   <div class="row">
-    <div class="four columns">
-      <img src="" alt="books_img">
+    <div class="four columns" onclick="window.location.href='detail?record_id={{ book.record_id }}'">
+      <div class="bookcoversmall">
+        <img src="{{ book.imageSrc }}" alt="No bookcover">
+      </div>
     </div>
-    <div class="six columns">
-      <p>books name</p>
-      <p>books author</p>
-      <p>books year</p>
+    <div class="six columns" onclick="window.location.href='detail?record_id={{ book.record_id }}'">
+      <p>{{ book.best_title}}</p>
+      <p>{{ book.best_author}}</p>
+      <p>{{ book.publish_year}}</p>
     </div>
     <div class="two columns">
-      <a class="button button-primary" href="#">
+      <btn class="button button-primary" onclick="sendDownload('{{ book.record_id }}')">
         D
         <!-- <i class="fa-regular fa-arrow-down-to-square"></i> -->
-      </a>
+      </btn>
     </div>
   </div>
 </div>
+<pre></pre>
+{% endfor %}
+{% endif %}
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"
+	integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
+	crossorigin="anonymous"></script> -->
 <script type="text/javascript" charset="utf-8">
-  
+	var socket = io.connect(window.location.origin);
+	function sendDownload(bookRecordID) {
+		socket.emit('get download url', {
+			'record_id': bookRecordID,
+			'ereaderuid': '{{ current_user.name }}'
+		})
+	}
 </script>
 {% endblock %}

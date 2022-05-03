@@ -15,20 +15,20 @@ imageSrc = 'http://syndetics.com/index.aspx/?isbn={0}/LC.gif&client=iiit&type=hw
 def index():
     keyword = request.args.get('keyword', default='', type=str)
     # request.form.get('catagory')
-    books = []
     matchBooks = []
     if len(keyword) > 2:
         matchBooks = db.session.query(Book).filter(
             or_(
-                Book.best_title_norm.like(keyword),
-                Book.best_author_norm.like(keyword)
+                Book.best_title_norm.contains(keyword),
+                Book.best_author_norm.contains(keyword)
             )
-        )
+        ).all()
     for book in matchBooks:
-        books.append({'book': book, 'imageSrc': imageSrc.format(book.isbn)})
+        book.imageSrc = imageSrc.format(book.isbn)
     return render_template(
         'index.html',
-        books=books
+        keyword=keyword,
+        books=matchBooks
     )
 
 
