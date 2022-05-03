@@ -17,8 +17,9 @@
             <div class="one columns">
                 <div id="mySidenav" class="sidenav">
                     <div class="userprofile">
-                        <span>User Name</span>
-                        <a href="#">Log out</a>
+                        <span>{{ current_user.email }}</span>
+                        <span>{{ current_user.name }}</span>
+                        <a href="logout">Log out</a>
                     </div>
                     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
                     <a href="#">About</a>
