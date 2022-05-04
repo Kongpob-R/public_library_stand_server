@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="devicesstatus">
+    <h3>Devices Status</h3>
+    <div class="row">
+        <table class="u-full-width">
+            <thead>
+                <tr>
+                    <th>E-Reader</th>
+                    <th>Availabilty status</th>
+                    <th>Wifi connection</th>
+                    <th>Battery</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ECE01</td>
+                    <td>Not available</td>
+                    <td>Online</td>
+                    <td>100%</td>
+                </tr>
+                <tr>
+                    <td>ECE02</td>
+                    <td>Available</td>
+                    <td>Online</td>
+                    <td>80%</td>
+                </tr>
+                <tr>
+                    <td>LIB01</td>
+                    <td>N/a</td>
+                    <td>Offline</td>
+                    <td>N/a</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<pre></pre>
+
+<!-- Just in case -->
+<div class="userlog">
+    <h3>User Log</h3>
+    <div class="row">
+        <table class="u-full-width">
+            <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Username</th>
+                    <th>Device</th>
+                    <th>Downloaded Book</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2022-07-11 12:03:03</td>
+                    <td>s6100000000000</td>
+                    <td>ENG02</td>
+                    <td>None</td>
+                </tr>
+                <tr>
+                    <td>2022-07-14 16:18:35</td>
+                    <td>s6400000000000</td>
+                    <td>ENG01</td>
+                    <td>[ISBN/ID]</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<pre></pre>
+
+<!-- Just in case -->
+<div class="downloadedstat">
+    <h3>Books Statistics</h3>
+    <div class="row">
+        <table class="u-full-width">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Name</th>
+                    <th>Category/Subject</th>
+                    <th>Number of download</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Psychology [electronic resource] : an exploration</td>
+                    <td>ENG02</td>
+                    <td>15</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Artificial intelligence for dummies [electronic resource]</td>
+                    <td>ENG01</td>
+                    <td>2</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
