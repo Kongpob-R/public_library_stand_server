@@ -33,6 +33,11 @@ class User(UserMixin, db.Model):
         db.session.commit()
 
 
+class Ereader(db.Model):
+    ereaderuid = db.Column(db.String(30), primary_key=True)
+    short_name = db.Column(db.String(20), unique=True)
+
+
 class Book(db.Model):
     record_id = db.Column(db.String(30), primary_key=True)
     varfield_id = db.Column(db.String(10))

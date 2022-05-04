@@ -14,6 +14,8 @@ imageSrc = 'http://syndetics.com/index.aspx/?isbn={0}/LC.gif&client=iiit&type=hw
 
 @main.route('/')
 def index():
+    if not current_user.is_authenticated:
+        return current_app.login_manager.unauthorized()
     keyword = request.args.get('keyword', default='', type=str)
     # request.form.get('catagory')
     matchBooks = []
@@ -35,6 +37,8 @@ def index():
 
 @main.route('/detail')
 def detail():
+    if not current_user.is_authenticated:
+        return current_app.login_manager.unauthorized()
     record_id = request.args.get('record_id', default='', type=str)
     book = db.session.query(Book).filter_by(record_id=record_id).first()
     if book == None:
