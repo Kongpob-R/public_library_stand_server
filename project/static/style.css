@@ -3,6 +3,34 @@ body {
     width: auto;
 }
 
+.loginbox {
+    padding: 64px;
+}
+
+.loginbox img {
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    padding-bottom: 20px;
+}
+
+.loginbox input {
+    font-size: 10pt;
+}
+
+.loginbox button {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.loginbox p {
+    font-size: 12px;
+    text-align: center;
+    color: #888888;
+}
+
 .navbar-menu {
     background-color: #33C3F0;
     color: #FFFFFF;
@@ -82,20 +110,17 @@ span {
 }
 
 .categoriescollapsed {
-    /* display: block; */
-    visibility: visible;
+    display: block;
     padding: 8px 8px 8px 32px;
 }
 
 .categoriesexpanded {
-    /* display: none; */
-    visibility: visible;
+    display: none;
     padding: 8px 8px 8px 32px;
 }
 
 .eachcategory {
-    /* display: none; */
-    visibility: visible;
+    display: none;
     background-color: #E1E1E1;
     padding: 8px 8px 8px 64px;
 }

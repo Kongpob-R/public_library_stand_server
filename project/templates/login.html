@@ -1,36 +1,30 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="four column">
-    <h3 class="title">Login</h3>
-    <div class="box">
+<div class="container">
+    <div class="loginbox">
+        <img src="{{ url_for('static', filename='temp_lib_logo.png') }}" alt=" KMUTNB Central Library">
+        <!-- <img src="{{ url_for('static', filename='icit_account_logo.png') }}" alt=" ICIT Account"> -->
+        <strong>Please log in with ICIT account</strong>
         {% with messages = get_flashed_messages() %}
         {% if messages %}
-            <div class="notification is-danger">
-                {{ messages[0] }}
-            </div>
+        <div class="notification is-danger">
+            {{ messages[0] }}
+        </div>
         {% endif %}
         {% endwith %}
         <form method="POST" action="/login">
-            <div class="field">
-                <div class="control">
-                    <input class="input is-large" type="email" name="email" placeholder="Your Email" autofocus="">
-                </div>
+            <div class="row">
+                <input class="u-full-width" type="text" name="username" placeholder="Username" autofocus="">
             </div>
-
-            <div class="field">
-                <div class="control">
-                    <input class="input is-large" type="password" name="password" placeholder="Your Password">
-                </div>
+            <div class="row">
+                <input class="u-full-width" type="password" name="password" placeholder="Password">
             </div>
-            <div class="field">
-                <label class="checkbox">
-                    <input type="checkbox" name="remember">
-                    Remember me
-                </label>
-            </div>
-            <button class="button is-block is-info is-large is-fullwidth">Login</button>
+            <button class="button-primary">Log in</button>
         </form>
+        <p>All downloadable resources from KMUTNB Central Library are reserved for students and personnel of King Mongkut’s University of Technology
+            North Bangkok.</p>
+        <!-- <p>This is a part of Computer Engineering Thesis</p> -->
     </div>
 </div>
 {% endblock %}
