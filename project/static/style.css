@@ -177,3 +177,10 @@ span {
     width: auto;
     min-width: 360px;
 }
+
+table {
+    padding-top: 32px;
+    padding-left: 64px;
+    max-width: 100%;
+    min-width: fit-content;
+}

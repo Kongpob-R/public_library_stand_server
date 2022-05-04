@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+<h1>Dashboard</h1>
 <div class="devicesstatus">
     <h3>Devices Status</h3>
     <div class="row">
@@ -72,7 +73,7 @@
 
 <!-- Just in case -->
 <div class="downloadedstat">
-    <h3>Books Statistics</h3>
+    <h3>Books List</h3>
     <div class="row">
         <table class="u-full-width">
             <thead>
@@ -81,6 +82,10 @@
                     <th>Name</th>
                     <th>Category/Subject</th>
                     <th>Number of download</th>
+                    <!-- recommend on web -->
+                    <th>Recommended</th>
+                    <!-- pre-download and recommend on e-reader -->
+                    <th>Pre-download</th>
                 </tr>
             </thead>
             <tbody>
@@ -89,12 +94,24 @@
                     <td>Psychology [electronic resource] : an exploration</td>
                     <td>ENG02</td>
                     <td>15</td>
+                    <td>
+                        <input type="checkbox" checked="true">
+                    </td>
+                    <td>
+                        <input type="checkbox" checked="false">
+                    </td>
                 </tr>
                 <tr>
                     <td>2</td>
                     <td>Artificial intelligence for dummies [electronic resource]</td>
                     <td>ENG01</td>
                     <td>2</td>
+                    <td>
+                        <input type="checkbox" checked="false">
+                    </td>
+                    <td>
+                        <input type="checkbox" checked="true">
+                    </td>
                 </tr>
             </tbody>
         </table>
