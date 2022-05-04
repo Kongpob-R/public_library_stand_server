@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
-from flask import Blueprint, render_template, request
+from flask import Blueprint, current_app, render_template, request
+from flask_login import current_user
 from flask_socketio import emit
 import requests
 from sqlalchemy import or_
@@ -42,6 +43,15 @@ def detail():
         'detail.html',
         imageSrc=imageSrc.format(book.isbn),
         book=book,
+    )
+
+
+@main.route('/dashboard')
+def dashboard():
+    if current_user.role != 'superuser':
+        return current_app.login_manager.unauthorized()
+    return render_template(
+        'dashboard.html'
     )
 
 

@@ -1,13 +1,36 @@
 from flask_login import UserMixin
+from werkzeug.security import generate_password_hash
 from . import db
 
 
 class User(UserMixin, db.Model):
     # primary keys are required by SQLAlchemy
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(100), unique=True)
+    username = db.Column(db.String(100))
     password = db.Column(db.String(100))
-    name = db.Column(db.String(1000))
+    ereaderuid = db.Column(db.String(100))
+    role = db.Column(db.String(10))
+
+    @classmethod
+    def createsuperuser(cls, **kw):
+        superuser = cls(**kw)
+        superuser.role = 'superuser'
+        superuser.password = generate_password_hash(
+            superuser.password,
+            method='sha256'
+        )
+        db.session.add(superuser)
+        db.session.commit()
+
+    @classmethod
+    def createuser(cls, **kw):
+        user = cls(**kw)
+        user.password = generate_password_hash(
+            user.password,
+            method='sha256'
+        )
+        db.session.add(user)
+        db.session.commit()
 
 
 class Book(db.Model):
@@ -30,3 +53,4 @@ class Book(db.Model):
     best_author = db.Column(db.String(100))
     best_author_norm = db.Column(db.String(100))
     isbn = db.Column(db.String(20))
+    recommend_on = db.Column(db.String(20))
