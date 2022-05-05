@@ -58,4 +58,5 @@ class Book(db.Model):
     best_author = db.Column(db.String(100))
     best_author_norm = db.Column(db.String(100))
     isbn = db.Column(db.String(20))
-    recommend_on = db.Column(db.String(20))
+    recommend = db.Column(db.Boolean)
+    predownload = db.Column(db.Boolean)

@@ -65,14 +65,31 @@
 <!-- Just in case -->
 <div class="downloadedstat">
     <h3>Books List</h3>
+    <form id="form-action" method="post">
+    <div class="row">
+        <div class="eight columns">
+            <select class="u-full-width" name="select-action" id="select-action"> 
+                <option value="addPredownload">add selections to pre-download list</option>
+                <option value="removePredownload">remove selections from pre-download list</option>
+                <option value="addRecommend">add selections to recommend list</option>
+                <option value="removeRecommend">remove selections from recommend list</option>
+                <option value="clearRecommend">clear recommend list</option>
+                <option value="clearPredownload">clear pre-download list</option>
+            </select>
+        </div>
+        <div class="four columns">
+            <input type="submit" class="button-primary" value="Go">
+        </div>
+    </div>
     <div class="row">
         <table class="u-full-width">
             <thead>
                 <tr>
+                    <th></th>
                     <th>No.</th>
                     <th>Name</th>
                     <th>Category/Subject</th>
-                    <th>Number of download</th>
+                    <!-- <th>Number of download</th> -->
                     <!-- recommend on web -->
                     <th>Recommended</th>
                     <!-- pre-download and recommend on e-reader -->
@@ -80,35 +97,49 @@
                 </tr>
             </thead>
             <tbody>
+                {% for book in books %}
                 <tr>
-                    <td>1</td>
-                    <td>Psychology [electronic resource] : an exploration</td>
-                    <td>ENG02</td>
-                    <td>15</td>
                     <td>
-                        <input type="checkbox" checked="true">
+                        <input type="checkbox" name="select-book" value="{{book.record_id}}">
+                    </td>
+                    <td>{{book.bib_record_id}}</td>
+                    <td class="book title">{{book.best_title}}</td>
+                    <td>Unknown Category</td>
+                    <!-- <td>15</td> -->
+                    <td class="book recommend">
+                        <input type="checkbox" disabled="disabled"
+                        {% if book.recommend %}
+                        checked
+                        {% endif %}
+                        >
                     </td>
                     <td>
-                        <input type="checkbox" checked="false">
+                        <input type="checkbox" disabled="disabled"
+                        {% if book.predownload %}
+                        checked
+                        {% endif %}
+                        >
                     </td>
                 </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Artificial intelligence for dummies [electronic resource]</td>
-                    <td>ENG01</td>
-                    <td>2</td>
-                    <td>
-                        <input type="checkbox" checked="false">
-                    </td>
-                    <td>
-                        <input type="checkbox" checked="true">
-                    </td>
-                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
+    </form>
 </div>
 <script type="text/javascript" charset="utf-8">
+    // function bookAction() {
+    //     const selectRows = document.getElementsByName('select-book')
+    //     var selectRowsChecked = []
+    //     for (var i=0; i<selectRows.length; i++) {
+    //         if(selectRows[i].checked) {
+    //             selectRowsChecked.push(selectRows[i].value)
+    //         }
+    //     }
+    //     console.log(document.getElementById('select-action').value)
+    //     console.log(selectRowsChecked)
+
+    // }
     function update(attribute, uid, value) {
         document.getElementById(attribute + '-' + uid).innerHTML = value
     }

@@ -1,5 +1,4 @@
 import os
-from dotenv import load_dotenv
 from flask import Blueprint, current_app, jsonify, render_template, request, jsonify
 from flask_login import current_user
 from flask_socketio import emit
@@ -52,12 +51,32 @@ def detail():
     )
 
 
-@main.route('/dashboard')
+@main.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
     if current_user.role != 'superuser':
         return current_app.login_manager.unauthorized()
+    if request.method == 'POST':
+        selectBooks = (request.form.getlist('select-book'))
+        selectAction = (request.form.get('select-action'))
+        print(selectAction)
+        for selectbook in selectBooks:
+            book = db.session.query(Book).filter_by(
+                record_id=selectbook).first()
+            if selectAction == 'addPredownload':
+                book.predownload = True
+            elif selectAction == 'removePredownload':
+                book.predownload = False
+            elif selectAction == 'addRecommend':
+                book.recommend = True
+            elif selectAction == 'removeRecommend':
+                book.recommend = False
+        if selectAction == 'clearPredownload':
+            Book.query.update({Book.predownload: False})
+        elif selectAction == 'clearRecommend':
+            Book.query.update({Book.recommend: False})
+        db.session.commit()
     ereader = Ereader.query.all()
-    books = Book.query.all()
+    books = Book.query.limit(50).all()
     return render_template(
         'dashboard.html',
         dashboard=True,
