@@ -30,6 +30,7 @@ def index():
         book.imageSrc = imageSrc.format(book.isbn)
     return render_template(
         'index.html',
+        navbar=True,
         keyword=keyword,
         books=matchBooks
     )
@@ -45,6 +46,7 @@ def detail():
         return 'Book details not found'
     return render_template(
         'detail.html',
+        navbar=True,
         imageSrc=imageSrc.format(book.isbn),
         book=book,
     )

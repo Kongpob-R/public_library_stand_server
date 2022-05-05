@@ -13,6 +13,7 @@
 </head>
 
 <body>
+    {% if navbar %}
     <div class="navbar-menu">
         <div class="row">
             <div class="one columns">
@@ -82,6 +83,7 @@
         </div>
     </div>
     <pre></pre>
+    {% endif %}
     <div class="hero-body">
         {% block content %}
         {% endblock %}
