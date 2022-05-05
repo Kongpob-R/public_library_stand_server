@@ -31,7 +31,16 @@ def create_app():
             'ereaderuid': json['ereaderuid'],
             'url': book.content
         }
+        print(json)
         emit('download', json)
+
+    @socketio.on('status_req')
+    def status_req():
+        emit('status_req')
+
+    @socketio.on('status_res')
+    def status_res(json):
+        emit('status_res', json)
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'

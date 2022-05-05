@@ -4,6 +4,7 @@
 <h1>Dashboard</h1>
 <div class="devicesstatus">
     <h3>Devices Status</h3>
+    
     <div class="row">
         <table class="u-full-width">
             <thead>
@@ -15,24 +16,14 @@
                 </tr>
             </thead>
             <tbody>
+                {% for device in ereader %}
                 <tr>
-                    <td>ECE01</td>
-                    <td>Not available</td>
-                    <td>Online</td>
-                    <td>100%</td>
+                    <td>{{device.short_name}}</td>
+                    <td id="availabilty-{{device.ereaderuid}}">Not available</td>
+                    <td id="connection-{{device.ereaderuid}}">Offline</td>
+                    <td id="battery-{{device.ereaderuid}}">Unknown</td>
                 </tr>
-                <tr>
-                    <td>ECE02</td>
-                    <td>Available</td>
-                    <td>Online</td>
-                    <td>80%</td>
-                </tr>
-                <tr>
-                    <td>LIB01</td>
-                    <td>N/a</td>
-                    <td>Offline</td>
-                    <td>N/a</td>
-                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
@@ -40,7 +31,7 @@
 <pre></pre>
 
 <!-- Just in case -->
-<div class="userlog">
+<!-- <div class="userlog">
     <h3>User Log</h3>
     <div class="row">
         <table class="u-full-width">
@@ -69,7 +60,7 @@
         </table>
     </div>
 </div>
-<pre></pre>
+<pre></pre> -->
 
 <!-- Just in case -->
 <div class="downloadedstat">
@@ -117,4 +108,9 @@
         </table>
     </div>
 </div>
+<script type="text/javascript" charset="utf-8">
+    function update(attribute, uid, value) {
+        document.getElementById(attribute + '-' + uid).innerHTML = value
+    }
+</script>
 {% endblock %}

@@ -83,12 +83,6 @@
         </div>
     </div>
     <pre></pre>
-    {% endif %}
-    <div class="hero-body">
-        {% block content %}
-        {% endblock %}
-    </div>
-
     <script type="text/javascript" charset="utf-8">
         function openNav() {
             document.getElementById("mySidenav").style.width = "250px";
@@ -153,6 +147,41 @@
             window.history.replaceState('', '', updateURLParameter(window.location.origin, "keyword", data.keyword));
         })
     </script>
+    {% endif %}
+    <div class="hero-body">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <!-- <script src="{{ url_for('static', filename='socket.io/socket.io.js')}}"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"
+	integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
+	crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf-8">
+	    var socket = io.connect(window.location.origin);
+        socket.on('connection', (socket) => {
+            socket.emit('status_req')
+            socket.on('status_res', (json) => {
+                console.log(json)
+                update('availabilty', json['ereaderuid'], json['availabilty'])
+                update('connection', json['ereaderuid'], json['connection'])
+                update('battery', json['ereaderuid'], json['battery'])
+            })
+        })
+    </script>
+    {% if dashboard %}
+    <script type="text/javascript" charset="utf-8">
+        socket.on('connection', (socket) => {
+            socket.emit('status_req')
+            socket.on('status_res', (json) => {
+                console.log(json)
+                update('availabilty', json['ereaderuid'], json['availabilty'])
+                update('connection', json['ereaderuid'], json['connection'])
+                update('battery', json['ereaderuid'], json['battery'])
+            })
+        })
+    </script>
+    {% endif %}
 </body>
 
 </html>

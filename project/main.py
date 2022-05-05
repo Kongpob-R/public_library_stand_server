@@ -1,12 +1,12 @@
 import os
 from dotenv import load_dotenv
-from flask import Blueprint, current_app, render_template, request
+from flask import Blueprint, current_app, jsonify, render_template, request, jsonify
 from flask_login import current_user
 from flask_socketio import emit
 import requests
 from sqlalchemy import or_
 from . import db
-from .models import Book
+from .models import Book, Ereader
 
 main = Blueprint('main', __name__)
 imageSrc = 'http://syndetics.com/index.aspx/?isbn={0}/LC.gif&client=iiit&type=hw7'
@@ -56,8 +56,13 @@ def detail():
 def dashboard():
     if current_user.role != 'superuser':
         return current_app.login_manager.unauthorized()
+    ereader = Ereader.query.all()
+    books = Book.query.all()
     return render_template(
-        'dashboard.html'
+        'dashboard.html',
+        dashboard=True,
+        ereader=(ereader),
+        books=books
     )
 
 
