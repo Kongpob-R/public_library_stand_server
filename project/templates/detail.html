@@ -1,38 +1,92 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="sectiondetail">
-	<div class="row">
-		<h3>{{book.best_title}}</h3>
-	</div>
-	<div class="row">
-		<div class="ten columns">
-			<p>{{book.best_author}}</p>
+<div class="container">
+	<div class="sectiondetail">
+		<div class="row">
+			<h3>{{book.best_title}}</h3>
+			<h5>3rd ed.</h5>
 		</div>
-		<div class="two columns">
-			<p>{{book.publish_year}}</p>
+		<div class="row">
+			<div class="eleven columns">
+				<p>{{book.best_author}}</p>
+			</div>
+			<div class="one columns">
+				<p>{{book.publish_year}}</p>
+			</div>
 		</div>
-	</div>
-	<div class="row">
 		<div class="bookcover">
 			<img src="{{ imageSrc }}" alt="No bookcover">
 		</div>
-	</div>
-	<div class="row">
+		<pre></pre>
 		<div class="centerbutton">
 			<button id="download-btn" onclick="sendDownload()">
 				<span class="material-symbols-outlined">
 					file_download
-				</span>					
+				</span>
 				Download to E-Reader
 			</button>
+		</div>
+		<pre></pre>
+		<h4>Description</h4>
+		<div class="row">
+			<div class="four columns">
+				<strong>Summary</strong>
+			</div>
+			<div class="eight columns">
+				<p>
+					Young William Bonney is talked into committing his first train robbery, unaware that his cousin and
+					best friend, Willie Monroe, is now sheriff of the nearest town, and that his fellow robbers are
+					already wanted in four states.
+				</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="four columns">
+				<strong>Subject</strong>
+			</div>
+			<div class="eight columns">
+				<p>
+					Bullshit, lol
+				</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="four columns">
+				<strong>Category</strong>
+			</div>
+			<div class="eight columns">
+				<p>
+					Bullshit, lol
+				</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="four columns">
+				<strong>Imprint</strong>
+			</div>
+			<div class="eight columns">
+				<p>
+					Bullshit, 1011
+				</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="four columns">
+				<strong>ISBN</strong>
+			</div>
+			<div class="eight columns">
+				<p>
+					{{book.isbn}}
+				</p>
+			</div>
 		</div>
 	</div>
 </div>
 
 <script type="text/javascript" charset="utf-8">
 	const sendDownload = () => {
-    showSnackbar('start downloading to {{ current_user.ereaderuid}}')
+		showSnackbar('start downloading to {{ current_user.ereaderuid}}')
 		socket.emit('get download url', {
 			'record_id': '{{ book.record_id }}',
 			'ereaderuid': '{{ current_user.ereaderuid }}'
