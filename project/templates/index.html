@@ -37,9 +37,10 @@
   {% endif %}
   <script type="text/javascript" charset="utf-8">
     function sendDownload(bookRecordID) {
+      showSnackbar('start downloading to {{ current_user.ereaderuid}}')
       socket.emit('get download url', {
         'record_id': bookRecordID,
-        'ereaderuid': '{{ current_user.name }}'
+        'ereaderuid': '{{ current_user.ereaderuid }}'
       })
     }
   </script>

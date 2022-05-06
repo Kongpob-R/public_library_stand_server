@@ -32,9 +32,10 @@
 
 <script type="text/javascript" charset="utf-8">
 	const sendDownload = () => {
+    showSnackbar('start downloading to {{ current_user.ereaderuid}}')
 		socket.emit('get download url', {
 			'record_id': '{{ book.record_id }}',
-			'ereaderuid': '{{ current_user.name }}'
+			'ereaderuid': '{{ current_user.ereaderuid }}'
 		})
 	}
 </script>

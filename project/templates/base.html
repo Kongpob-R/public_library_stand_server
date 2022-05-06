@@ -83,6 +83,7 @@
         </div>
     </div>
     <pre></pre>
+    <div id="snackbar"></div>
     <script type="text/javascript" charset="utf-8">
         function openNav() {
             document.getElementById("mySidenav").style.width = "250px";
@@ -146,6 +147,14 @@
             const data = Object.fromEntries(new FormData(event.target).entries())
             window.history.replaceState('', '', updateURLParameter(window.location.origin, "keyword", data.keyword));
         })
+        function showSnackbar(text) {
+            var snackbar = document.getElementById("snackbar");
+            snackbar.innerHTML = text
+            snackbar.className = "show";
+            setTimeout(function(){ 
+                snackbar.className = snackbar.className.replace("show", ""); 
+            }, 3000);
+        }
     </script>
     {% endif %}
     <div class="hero-body">
