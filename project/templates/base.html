@@ -8,27 +8,31 @@
     <title>E-book Reader Content</title>
     <link rel="stylesheet"
         href="https://fonts.sandbox.google.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='skeleton.css') }}" />
 </head>
 
 <body>
     {% if navbar %}
     <div class="navbar-menu">
         <div class="row">
-            <div class="one columns">
+            <div class="two columns">
                 <div id="mySidenav" class="sidenav">
-                    <div class="userprofile">
+                    <div class="userprofile" id="userProfile">
                         <div class="row">
-                            <div class="two columns">
-                                <span class="material-symbols-outlined">
+                            <div class="four columns">
+                                <span class="material-symbols-outlined" id="profile">
                                     account_circle_full
                                 </span>
                             </div>
-                            <div class="five columns">
+                            <div class="eight columns">
                                 <div class="row">
-                                    {{ current_user.username}}
-                                    {{ current_user.ereaderuid}}
+                                    <strong>{{ current_user.username}}</strong>
+                                </div>
+                                <div>
+                                    <em>Using {{ current_user.ereaderuid}}</em>
                                 </div>
                                 <div class="row">
                                     <a href="logout">Log out</a>
@@ -37,7 +41,7 @@
                         </div>
                     </div>
                     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                    <div class="categories">
+                    <div class="categories" id="showCat">
                         <div class="categoriescollapsed" id="collapsedCat" onclick="expand()">
                             <div class="row">
                                 <div class="ten columns">
@@ -70,27 +74,34 @@
                         </div>
                     </div>
                 </div>
-                <span class="material-symbols-outlined" onclick="openNav()"
-                    style="padding-top: 5px; font-size: 30px; cursor:pointer;">
+                <span class="material-symbols-outlined" onclick="openNav()" id="menu">
                     menu
                 </span>
             </div>
-            <div class="eleven columns">
+            <div class="ten columns">
                 <form action="" id="searchfield">
-                    <input class="searchfield" type="text" name="keyword" placeholder="Keyword Search">
+                    <input class="searchfield" type="search" name="keyword" placeholder="Keyword Search">
                 </form>
             </div>
         </div>
     </div>
     <pre></pre>
-    <div id="snackbar"></div>
+    <div class="snackbar">
+        <p id="snackbar"></p>
+    </div>
+
     <script type="text/javascript" charset="utf-8">
         function openNav() {
             document.getElementById("mySidenav").style.width = "250px";
+            document.getElementById("userProfile").style.visibility = "visible";
+            document.getElementById("showCat").style.visibility = "visible";
         }
 
         function closeNav() {
             document.getElementById("mySidenav").style.width = "0";
+            document.getElementById("userProfile").style.visibility = "hidden";
+            document.getElementById("showCat").style.visibility = "hidden";
+
         }
 
         function expand() {
@@ -151,8 +162,8 @@
             var snackbar = document.getElementById("snackbar");
             snackbar.innerHTML = text
             snackbar.className = "show";
-            setTimeout(function(){ 
-                snackbar.className = snackbar.className.replace("show", ""); 
+            setTimeout(function () {
+                snackbar.className = snackbar.className.replace("show", "");
             }, 3000);
         }
     </script>
@@ -164,10 +175,10 @@
 
     <!-- <script src="{{ url_for('static', filename='socket.io/socket.io.js')}}"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"
-	integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
-	crossorigin="anonymous"></script>
+        integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
+        crossorigin="anonymous"></script>
     <script type="text/javascript" charset="utf-8">
-	    var socket = io.connect(window.location.origin);
+        var socket = io.connect(window.location.origin);
         socket.on('connection', (socket) => {
             socket.emit('status_req')
             socket.on('status_res', (json) => {
