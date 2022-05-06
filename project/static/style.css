@@ -185,11 +185,6 @@ span {
     align-items: center;
 }
 
-.downloadbutton span {
-    margin-left: -11px;
-    margin-right: -30px;
-}
-
 .bookcoverpre img {
     display: block;
     margin-left: auto;
