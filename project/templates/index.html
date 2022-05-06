@@ -5,28 +5,28 @@
   {% elif books|length == 0 %}
   <div>No books match "{{ keyword }}"</div>
   {% else %}
-  <div>{{ books|length }} book match "{{ keyword }}"</div>
+  <div>{{ books|length }} book(s) match "{{ keyword }}"</div>
   {% for book in books %}
   <div class="container">
     <div class="bookcard">
       <div class="row">
-        <div class="four columns" onclick="window.location.href='detail?record_id={{ book.record_id }}'">
-          <div class="bookcoversmall">
+        <div class="five columns" onclick="window.location.href='detail?record_id={{ book.record_id }}'">
+          <div class="bookcoverpre">
             <img src="{{ book.imageSrc }}" alt="No bookcover">
           </div>
         </div>
-        <div class="six columns" onclick="window.location.href='detail?record_id={{ book.record_id }}'">
+        <div class="five columns" onclick="window.location.href='detail?record_id={{ book.record_id }}'">
           <p><strong>{{ book.best_title}}</strong></p>
           <em>{{ book.best_author}}</em>
           <p>{{ book.publish_year}}</p>
         </div>
         <div class="two columns">
           <div class="downloadbutton">
-            <btn class="button button-primary" onclick="sendDownload('{{ book.record_id }}')">
+            <button class="button button-primary" onclick="sendDownload('{{ book.record_id }}')">
               <span class="material-symbols-outlined">
                 file_download
               </span>
-            </btn>
+            </button>
           </div>
         </div>
       </div>
