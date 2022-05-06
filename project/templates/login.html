@@ -4,16 +4,8 @@
 <div class="container">
     <div id="ereaderuid-text"></div>
     <div class="loginbox">
-        <img src="{{ url_for('static', filename='temp_lib_logo.png') }}" alt=" KMUTNB Central Library">
-        <!-- <img src="{{ url_for('static', filename='icit_account_logo.png') }}" alt=" ICIT Account"> -->
+        <img src=" {{ url_for('static', filename='temp_lib_logo.png' ) }}" alt=" KMUTNB Central Library">
         <strong>Please log in with ICIT account</strong>
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <div class="notification is-danger">
-            {{ messages[0] }}
-        </div>
-        {% endif %}
-        {% endwith %}
         <form method="POST" action="/login">
             <div class="row">
                 <input class="u-full-width" type="text" name="username" placeholder="Username" autofocus="">
@@ -21,9 +13,17 @@
             <div class="row">
                 <input class="u-full-width" type="password" name="password" placeholder="Password">
             </div>
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="loginwarning">
+                {{ messages[0] }}
+            </div>
+            {% endif %}
+            {% endwith %}
             <button class="button-primary">Log in</button>
         </form>
-        <p>All downloadable resources from KMUTNB Central Library are reserved for students and personnel of King Mongkut’s University of Technology
+        <p>All downloadable resources from KMUTNB Central Library are reserved for students and personnel of King
+            Mongkut’s University of Technology
             North Bangkok.</p>
         <!-- <p>This is a part of Computer Engineering Thesis</p> -->
     </div>
