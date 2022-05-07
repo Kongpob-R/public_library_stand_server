@@ -5,7 +5,7 @@
 	<div class="sectiondetail">
 		<div class="row">
 			<h3>{{book.best_title}}</h3>
-			<h5>3rd ed.</h5>
+			{%if book.edition%}<h5>{{book.edition}}</h5>{%endif%}
 		</div>
 		<div class="row">
 			<div class="eleven columns">
@@ -29,48 +29,55 @@
 		</div>
 		<pre></pre>
 		<h4>Description</h4>
+		{%if book.summary%}
 		<div class="row">
 			<div class="four columns">
 				<strong>Summary</strong>
 			</div>
 			<div class="eight columns">
 				<p>
-					Young William Bonney is talked into committing his first train robbery, unaware that his cousin and
-					best friend, Willie Monroe, is now sheriff of the nearest town, and that his fellow robbers are
-					already wanted in four states.
+					{{book.summary}}
 				</p>
 			</div>
 		</div>
+		{%endif%}
+		{%if book.subject%}
 		<div class="row">
 			<div class="four columns">
 				<strong>Subject</strong>
 			</div>
 			<div class="eight columns">
 				<p>
-					Bullshit, lol
+					{{book.subject}}
 				</p>
 			</div>
 		</div>
+		{%endif%}
+		{%if book.category%}
 		<div class="row">
 			<div class="four columns">
 				<strong>Category</strong>
 			</div>
 			<div class="eight columns">
 				<p>
-					Bullshit, lol
+					{{book.category}}
 				</p>
 			</div>
 		</div>
+		{%endif%}
+		{%if book.imprint%}
 		<div class="row">
 			<div class="four columns">
 				<strong>Imprint</strong>
 			</div>
 			<div class="eight columns">
 				<p>
-					Bullshit, 1011
+					{{book.imprint}}
 				</p>
 			</div>
 		</div>
+		{%endif%}
+		{%if book.isbn%}
 		<div class="row">
 			<div class="four columns">
 				<strong>ISBN</strong>
@@ -81,6 +88,7 @@
 				</p>
 			</div>
 		</div>
+		{%endif%}
 	</div>
 </div>
 

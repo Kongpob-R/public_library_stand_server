@@ -79,6 +79,7 @@ def detail():
     return render_template(
         'detail.html',
         navbar=True,
+        lccCode=lccCode,
         imageSrc=imageSrc.format(book.isbn),
         book=book,
     )
