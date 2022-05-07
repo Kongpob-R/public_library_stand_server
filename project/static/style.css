@@ -35,6 +35,7 @@ strong {
 
 .loginbox input {
     font-size: 10pt;
+    padding-top: 2rem;
 }
 
 .loginbox button {
@@ -162,6 +163,26 @@ span {
     background-color: #E1E1E1;
 }
 
+.categorytag {
+    border-radius: 7px;
+    border-color: #b5b5b5;
+    border-width: 1px;
+    border-style: solid;
+    font-size: 20px;
+    padding: 0 5px;
+    text-overflow: ellipsis;
+    background-color: #f8f8f8;
+    max-width: fit-content;
+    vertical-align: middle;
+}
+
+.clearcategory {
+    font-size: 20px;
+    text-decoration: none;
+    display: inline-flex;
+    cursor: pointer;
+}
+
 .container {
     background-color: #FFFFFF;
     border-radius: 2px;
@@ -209,7 +230,6 @@ span {
         max-width: 120px;
         max-height: 180px;
     }
-
 }
 
 .bookcover img {
