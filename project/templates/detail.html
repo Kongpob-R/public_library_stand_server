@@ -94,7 +94,8 @@
 
 <script type="text/javascript" charset="utf-8">
 	const sendDownload = () => {
-		showSnackbar('start downloading to {{ current_user.ereaderuid}}')
+		const userEreader = document.getElementById('user-ereader').innerHTML
+		showSnackbar('start downloading to ' + userEreader)
 		socket.emit('get download url', {
 			'record_id': '{{ book.record_id }}',
 			'ereaderuid': '{{ current_user.ereaderuid }}'

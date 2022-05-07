@@ -35,6 +35,9 @@
                                     {%for ereader in ereaders%}
                                     {%if ereader.ereaderuid == current_user.ereaderuid%}
                                     <em>Using {{ereader.short_name}}</em>
+                                    <div id="user-ereader" style="display: none;">
+                                        {{ereader.short_name}}
+                                    </div>
                                     {%endif%}
                                     {%endfor%}
                                 </div>
