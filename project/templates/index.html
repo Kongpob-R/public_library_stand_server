@@ -1,46 +1,49 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% if keyword|length < 3 %} <div>keyword too short</div>
-  {% elif books|length == 0 %}
+{% if keyword|length < 3 and category|length == 0 %} 
+  <div>keyword too short</div>
+{% elif books|length == 0 %}
   {% if category %}
-  <h4>Category :  {{ category }}</h4>
+    <h4>Category :  {{ category }}</h4>
+    <a href="javascript:void(0)" class="closebtn" onclick="addCategoryFilter('')">&times;</a>
   {% endif %}
   <div>No book matches "{{ keyword }}"</div>
-  {% else %}
+{% else %}
   {% if category %}
   <h4>Category :  {{ category }}</h4>
+  <a href="javascript:void(0)" class="closebtn" onclick="addCategoryFilter('')">&times;</a>
   {% endif %}
-  <div>{{ books|length }} book(s) match "{{ keyword }}"</div>
-  {% for book in books %}
-  <div class="container">
-    <div class="bookcard">
-      <div class="row">
-        <div class="five columns" onclick="window.location.href='detail?record_id={{ book.record_id }}'">
-          <div class="bookcoverpre">
-            <img src="{{ book.imageSrc }}" alt="No bookcover">
+  <div>{{ booksCount }} book(s) {% if keyword %} match "{{ keyword }}" {% endif %}</div>
+    {% for book in books %}
+    <div class="container">
+      <div class="bookcard">
+        <div class="row">
+          <div class="five columns" onclick="window.location.href='detail?record_id={{ book.record_id }}'">
+            <div class="bookcoverpre">
+              <img src="{{ book.imageSrc }}" alt="No bookcover">
+            </div>
           </div>
-        </div>
-        <div class="five columns" onclick="window.location.href='detail?record_id={{ book.record_id }}'">
-          <p><strong>{{ book.best_title}}</strong></p>
-          <em>{{ book.best_author}}</em>
-          <p>{{ book.publish_year}}</p>
-        </div>
-        <div class="two columns">
-          <div class="downloadbutton">
-            <button class="button button-primary" onclick="sendDownload('{{ book.record_id }}')">
-              <span class="material-symbols-outlined">
-                file_download
-              </span>
-            </button>
+          <div class="five columns" onclick="window.location.href='detail?record_id={{ book.record_id }}'">
+            <p><strong>{{ book.best_title}}</strong></p>
+            <em>{{ book.best_author}}</em>
+            <p>{{ book.publish_year}}</p>
+          </div>
+          <div class="two columns">
+            <div class="downloadbutton">
+              <button class="button button-primary" onclick="sendDownload('{{ book.record_id }}')">
+                <span class="material-symbols-outlined">
+                  file_download
+                </span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <pre></pre>
+    <pre></pre>
   {% endfor %}
-  {% endif %}
+{% endif %}
   <script type="text/javascript" charset="utf-8">
     function sendDownload(bookRecordID) {
       showSnackbar('start downloading to {{ current_user.ereaderuid}}')
@@ -50,4 +53,4 @@
       })
     }
   </script>
-  {% endblock %}
+{% endblock %}

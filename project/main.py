@@ -1,12 +1,11 @@
 import os
-from flask import Blueprint, current_app, jsonify, render_template, request, jsonify
+from flask import Blueprint, current_app, render_template, request
 from flask_login import current_user
-from flask_socketio import emit
 import requests
 from sqlalchemy import or_
 from . import db
 from .models import Book, Ereader
-from .lccCode import lccCode
+from .lccCode import lccCode, lccCodelong
 
 main = Blueprint('main', __name__)
 imageSrc = 'http://syndetics.com/index.aspx/?isbn={0}/LC.gif&client=iiit&type=hw7'
@@ -17,25 +16,55 @@ def index():
     if not current_user.is_authenticated:
         return current_app.login_manager.unauthorized()
     keyword = request.args.get('keyword', default='', type=str)
-    category = request.args.get('category', default=None, type=str)
+    category = request.args.get('category', default='', type=str)
     matchBooks = []
-    if len(keyword) > 2:
+    booksCount = 0
+    if len(keyword) > 2 and len(category) == 0:
         matchBooks = db.session.query(Book).filter(
-            or_(
-                Book.best_title_norm.contains(keyword),
-                Book.best_author_norm.contains(keyword),
-                Book.subject.contains(keyword),
+            Book.best_title_norm.contains(keyword) |
+            Book.best_author_norm.contains(keyword) |
+            Book.subject.contains(keyword)
+        )
+        booksCount = matchBooks.count()
+        matchBooks = matchBooks.all()
+    elif len(keyword) == 0 and len(category) > 0:
+        matchCode = []
+        for code, meaning in lccCodelong.items():
+            if meaning == category:
+                matchCode.append(code)
+        for code in matchCode:
+            booksCount += db.session.query(Book).filter(
+                Book.lc_callno.startswith(code)
+            ).count()
+            matchBooks += db.session.query(Book).filter(
+                Book.lc_callno.startswith(code)
+            ).limit(500).all()
+    elif len(keyword) > 2 and len(category) > 2:
+        matchCode = []
+        for code, meaning in lccCodelong.items():
+            if meaning == category:
+                matchCode.append(code)
+        for code in matchCode:
+            match = db.session.query(Book).filter(
+                Book.best_title_norm.contains(keyword) |
+                Book.best_author_norm.contains(keyword) |
+                Book.subject.contains(keyword)
+            ).filter(
+                Book.lc_callno.startswith(code)
             )
-        ).all()
+            booksCount += match.count()
+            matchBooks += match.all()
     for book in matchBooks:
         book.imageSrc = imageSrc.format(book.isbn)
+    print(matchBooks)
     return render_template(
         'index.html',
         navbar=True,
         lccCode=lccCode,
         keyword=keyword,
         category=category,
-        books=matchBooks
+        books=matchBooks,
+        booksCount=booksCount
     )
 
 
