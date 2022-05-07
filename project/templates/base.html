@@ -66,12 +66,16 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="eachcategory" id="eachCat">
-                            <div class="row">
-                                Biography
+                        {% for code, category in lccCode.items() %}
+                        <div class="eachcategory" onclick="addCategoryFilter('{{ category }}')">
+                            <!-- <div class="row" onclick="addCategoryFilter('')">
+                                All Categories
+                            </div> -->
+                            <div class="row" >
+                                {{ category }}
                             </div>
-
                         </div>
+                        {% endfor %}
                     </div>
                 </div>
                 <span class="material-symbols-outlined" onclick="openNav()" id="menu">
@@ -107,12 +111,18 @@
         function expand() {
             document.getElementById("collapsedCat").style.display = "none";
             document.getElementById("expandedCat").style.display = "block";
-            document.getElementById("eachCat").style.display = "block";
+            // document.getElementById("eachCat").style.display = "block";
+            document.querySelectorAll(".eachcategory").forEach((element) => {
+                element.style.display = "block";
+            })
         }
+
         function collapse() {
             document.getElementById("collapsedCat").style.display = "block";
             document.getElementById("expandedCat").style.display = "none";
-            document.getElementById("eachCat").style.display = "none";
+            document.querySelectorAll(".eachcategory").forEach((element) => {
+                element.style.display = "none";
+            })
         }
 
         const updateURLParameter = (url, param, paramVal) => {
@@ -155,9 +165,19 @@
         }
 
         document.getElementById('searchfield').addEventListener('submit', event => {
+            event.preventDefault()
             const data = Object.fromEntries(new FormData(event.target).entries())
-            window.history.replaceState('', '', updateURLParameter(window.location.origin, "keyword", data.keyword));
+            var url = window.location.origin + '/' + window.location.search
+            window.history.replaceState('', '', updateURLParameter(url, "keyword", data.keyword));
+            window.location.reload()
         })
+
+        function addCategoryFilter(category){
+            var url = window.location.origin + '/' + window.location.search
+            window.history.replaceState('', '', updateURLParameter(url, "category", category));
+            window.location.reload()
+        }
+
         function showSnackbar(text) {
             var snackbar = document.getElementById("snackbar");
             snackbar.innerHTML = text
@@ -166,6 +186,7 @@
                 snackbar.className = snackbar.className.replace("show", "");
             }, 3000);
         }
+
     </script>
     {% endif %}
     <div class="hero-body">

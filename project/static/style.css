@@ -154,8 +154,12 @@ span {
 
 .eachcategory {
     display: none;
-    background-color: #E1E1E1;
+    background-color: #FFFFFF;
     padding: 8px 8px 8px 64px;
+}
+
+.eachcategory:hover {
+    background-color: #E1E1E1;
 }
 
 .container {

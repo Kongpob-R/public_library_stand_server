@@ -6,6 +6,7 @@ import requests
 from sqlalchemy import or_
 from . import db
 from .models import Book, Ereader
+from .lccCode import lccCode
 
 main = Blueprint('main', __name__)
 imageSrc = 'http://syndetics.com/index.aspx/?isbn={0}/LC.gif&client=iiit&type=hw7'
@@ -16,13 +17,14 @@ def index():
     if not current_user.is_authenticated:
         return current_app.login_manager.unauthorized()
     keyword = request.args.get('keyword', default='', type=str)
-    # request.form.get('catagory')
+    category = request.args.get('category', default=None, type=str)
     matchBooks = []
     if len(keyword) > 2:
         matchBooks = db.session.query(Book).filter(
             or_(
                 Book.best_title_norm.contains(keyword),
-                Book.best_author_norm.contains(keyword)
+                Book.best_author_norm.contains(keyword),
+                Book.subject.contains(keyword),
             )
         ).all()
     for book in matchBooks:
@@ -30,7 +32,9 @@ def index():
     return render_template(
         'index.html',
         navbar=True,
+        lccCode=lccCode,
         keyword=keyword,
+        category=category,
         books=matchBooks
     )
 
@@ -133,3 +137,44 @@ def importisbn():
         book.isbn = isbn
     db.session.commit()
     return 'import books isbn finishs'
+
+
+@main.route('/import_missing_detail')
+def importlccallno():
+    getMarc21ByBibid = os.getenv('API_GET_MARC21_BY_BIBID')
+    missingDetailBooks = db.session.query(Book).filter(
+        or_(
+            Book.isbn == None,
+            Book.edition == None,
+            Book.summary == None,
+            Book.subject == None,
+            Book.lc_callno == None,
+            Book.imprint == None
+        )
+    ).all()
+    for book in missingDetailBooks:
+        marc21 = requests.get(
+            getMarc21ByBibid + book.bib_record_id,
+            proxies={'http': os.getenv('PROXY_HTTP')}
+        ).json()
+        if len(marc21['BibMarc21']) > 0:
+            imprint = []
+            subject = []
+            for marc in marc21['BibMarc21']:
+                if marc['marc_tag'] == '020' and marc['occ_num'] == 0:
+                    book.isbn = marc['content']
+                if marc['marc_tag'] == '050' and marc['display_order'] == 0:
+                    book.lc_callno = marc['content']
+                if marc['marc_tag'] == '250' and marc['display_order'] == 0:
+                    book.imprint = marc['content']
+                if marc['marc_tag'] == '260':
+                    imprint.append(marc['content'])
+                if marc['marc_tag'] == '520' and marc['display_order'] == 0:
+                    book.summary = marc['content']
+                if marc['marc_tag'] == '650':
+                    subject.append(marc['content'])
+
+            book.imprint = ' '.join(imprint)
+            book.subject = ' '.join(subject)
+    db.session.commit()
+    return 'import books details from MARC21 finishs'

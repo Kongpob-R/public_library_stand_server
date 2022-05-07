@@ -3,8 +3,14 @@
 {% block content %}
 {% if keyword|length < 3 %} <div>keyword too short</div>
   {% elif books|length == 0 %}
-  <div>No books match "{{ keyword }}"</div>
+  {% if category %}
+  <h4>Category :  {{ category }}</h4>
+  {% endif %}
+  <div>No book matches "{{ keyword }}"</div>
   {% else %}
+  {% if category %}
+  <h4>Category :  {{ category }}</h4>
+  {% endif %}
   <div>{{ books|length }} book(s) match "{{ keyword }}"</div>
   {% for book in books %}
   <div class="container">
