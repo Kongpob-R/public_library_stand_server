@@ -19,6 +19,7 @@ def index():
     category = request.args.get('category', default='', type=str)
     matchBooks = []
     booksCount = 0
+
     if len(keyword) > 2 and len(category) == 0:
         matchBooks = db.session.query(Book).filter(
             Book.best_title_norm.contains(keyword) |
@@ -27,6 +28,7 @@ def index():
         )
         booksCount = matchBooks.count()
         matchBooks = matchBooks.all()
+
     elif len(keyword) == 0 and len(category) > 0:
         matchCode = []
         for code, meaning in lccCodelong.items():
@@ -39,6 +41,7 @@ def index():
             matchBooks += db.session.query(Book).filter(
                 Book.lc_callno.startswith(code)
             ).limit(500).all()
+
     elif len(keyword) > 2 and len(category) > 2:
         matchCode = []
         for code, meaning in lccCodelong.items():
@@ -54,13 +57,15 @@ def index():
             )
             booksCount += match.count()
             matchBooks += match.all()
+
     for book in matchBooks:
         book.imageSrc = imageSrc.format(book.isbn)
-    print(matchBooks)
+
     return render_template(
         'index.html',
         navbar=True,
         lccCode=lccCode,
+        ereaders=Ereader.query.all(),
         keyword=keyword,
         category=category,
         books=matchBooks,
@@ -80,6 +85,7 @@ def detail():
         'detail.html',
         navbar=True,
         lccCode=lccCode,
+        ereaders=Ereader.query.all(),
         imageSrc=imageSrc.format(book.isbn),
         book=book,
     )

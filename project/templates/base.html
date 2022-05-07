@@ -32,7 +32,11 @@
                                     <strong>{{ current_user.username}}</strong>
                                 </div>
                                 <div>
-                                    <em>Using {{ current_user.ereaderuid}}</em>
+                                    {%for ereader in ereaders%}
+                                    {%if ereader.ereaderuid == current_user.ereaderuid%}
+                                    <em>Using {{ereader.short_name}}</em>
+                                    {%endif%}
+                                    {%endfor%}
                                 </div>
                                 <div class="row">
                                     <a href="logout">Log out</a>

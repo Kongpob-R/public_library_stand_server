@@ -1,19 +1,21 @@
-from flask import Blueprint, render_template, redirect, url_for, request, flash
+from crypt import methods
+from flask import Blueprint, jsonify, render_template, redirect, url_for, request, flash
 from werkzeug.security import check_password_hash
 from flask_login import login_required, login_user, logout_user
-from .models import User
+from .models import User, Ereader
 from . import db
 
 auth = Blueprint('auth', __name__)
 
 
-@auth.route('/login')
+@auth.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
-
-
-@auth.route('/login', methods=['POST'])
-def login_post():
+    ereaders = db.session.query(Ereader).all()
+    if request.method == 'GET':
+        return render_template(
+            'login.html',
+            ereaders=ereaders
+        )
     # login code goes here
     username = request.form.get('username')
     password = request.form.get('password')
@@ -27,9 +29,15 @@ def login_post():
         flash('Please check your login details and try again.')
         # if the user doesn't exist or password is wrong, reload the page
         return redirect(url_for('auth.login'))
+    allEreaderuid = []
+    for ereader in ereaders:
+        allEreaderuid.append(ereader.ereaderuid)
+    if ereaderuid not in allEreaderuid:
+        flash('Please check your E-reader devices UID and try again.')
+        return redirect(url_for('auth.login'))
 
     # if the above check passes, then we know the user has the right credentials
-    user.name = ereaderuid
+    user.ereaderuid = ereaderuid
     db.session.commit()
     login_user(user)
     if user.role == 'superuser':
