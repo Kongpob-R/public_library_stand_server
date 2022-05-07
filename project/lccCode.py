@@ -1,0 +1,23 @@
+lccCode = {
+    'A': 'General Works',
+    'B': 'Philosophy, Psychology, Religion',
+    'C': 'Auxiliary Sciences of History',
+    'D': 'World History(except American History)',
+    'E': 'American History',
+    'F': 'Local History of the United States and British, Dutch, French, and Latin America',
+    'G': 'Geography, Anthropology, Recreation',
+    'H': 'Social Sciences',
+    'J': 'Political Science',
+    'K': 'Law',
+    'L': 'Education',
+    'M': 'Music',
+    'N': 'Fine Arts',
+    'P': 'Language and Literature',
+    'Q': 'Science',
+    'R': 'Medicine',
+    'S': 'Agriculture',
+    'T': 'Technology',
+    'U': 'Military Science',
+    'V': 'Naval Science',
+    'Z': 'Bibliography, Library Science'
+}
