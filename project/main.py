@@ -211,6 +211,6 @@ def importlccallno():
                     subject.append(marc['content'])
 
             book.imprint = ' '.join(imprint)
-            book.subject = ' '.join(subject)
+            book.subject = '\n'.join(subject)
     db.session.commit()
     return 'import books details from MARC21 finishs'
