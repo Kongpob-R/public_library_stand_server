@@ -112,6 +112,10 @@ input[type="search"] {
     margin-left: 50px;
 }
 
+.fixedpadding {
+    height: 120px;
+}
+
 
 @media screen and (max-height: 450px) {
     .sidenav {
@@ -229,6 +233,10 @@ span {
     .bookcoverpre img {
         max-width: 120px;
         max-height: 180px;
+    }
+
+    .fixedpadding {
+        height: 20px;
     }
 }
 

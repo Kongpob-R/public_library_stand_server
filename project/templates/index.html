@@ -4,9 +4,9 @@
 {% if keyword|length < 3 and category|length==0 %} <div>keyword too short</div>
   {% elif books|length == 0 %}
   {% if category %}
-  <div class="row">
-    <h4>Category : {{ category }}</h4>
-    <a href="javascript:void(0)" class="clearcategory" onclick="addCategoryFilter('')">&times;</a>
+  <div class="categorytag">
+    {{ category }}
+    <div href="javascript:void(0)" class="clearcategory" onclick="addCategoryFilter('')">&times;</div>
   </div>
   {% endif %}
   <div>No book matches "{{ keyword }}"</div>
