@@ -1,5 +1,5 @@
 import os
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO
 from dotenv import load_dotenv
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -7,6 +7,7 @@ from flask_login import LoginManager
 
 # init SQLAlchemy so we can use it later in our models
 db = SQLAlchemy()
+socketio = SocketIO(logger=True, engineio_logger=True, async_mode='gevent')
 load_dotenv()
 
 
@@ -18,29 +19,7 @@ def create_app():
         'SQLALCHEMY_DATABASE_URI')
 
     db.init_app(app)
-    socketio = SocketIO(app)
-    socketio.run(app)
-
-    from .models import Book
-
-    @socketio.on('get download url')
-    def handle_get_download_url(json):
-        book = db.session.query(Book).filter_by(
-            record_id=json['record_id']).first()
-        json = {
-            'ereaderuid': json['ereaderuid'],
-            'url': book.content
-        }
-        print(json)
-        emit('download', json)
-
-    @socketio.on('status_req')
-    def status_req():
-        emit('status_req')
-
-    @socketio.on('status_res')
-    def status_res(json):
-        emit('status_res', json)
+    socketio.init_app(app)
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'

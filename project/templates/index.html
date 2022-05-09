@@ -51,7 +51,7 @@
     function sendDownload(bookRecordID) {
       const userEreader = document.getElementById('user-ereader').innerHTML
       showSnackbar('start downloading to ' + userEreader)
-      socket.emit('get download url', {
+      socket.emit('get_download_url', {
         'record_id': bookRecordID,
         'ereaderuid': '{{ current_user.ereaderuid }}'
       })

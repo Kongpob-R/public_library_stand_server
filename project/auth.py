@@ -1,5 +1,4 @@
-from crypt import methods
-from flask import Blueprint, jsonify, render_template, redirect, url_for, request, flash
+from flask import Blueprint, render_template, redirect, url_for, request, flash
 from werkzeug.security import check_password_hash
 from flask_login import login_required, login_user, logout_user
 from .models import User, Ereader
