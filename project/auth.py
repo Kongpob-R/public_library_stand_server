@@ -9,7 +9,7 @@ auth = Blueprint('auth', __name__)
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-    ereaders = db.session.query(Ereader).all()
+    ereaders = Ereader.query.all()
     if request.method == 'GET':
         return render_template(
             'login.html',
@@ -28,6 +28,9 @@ def login():
         flash('Please check your login details and try again.')
         # if the user doesn't exist or password is wrong, reload the page
         return redirect(url_for('auth.login'))
+    if user.role == 'superuser':
+        login_user(user)
+        return redirect(url_for('main.dashboard'))
     allEreaderuid = []
     for ereader in ereaders:
         allEreaderuid.append(ereader.ereaderuid)
@@ -38,9 +41,6 @@ def login():
     # if the above check passes, then we know the user has the right credentials
     user.ereaderuid = ereaderuid
     db.session.commit()
-    login_user(user)
-    if user.role == 'superuser':
-        return redirect(url_for('main.dashboard'))
     return redirect(url_for('main.index'))
 
 

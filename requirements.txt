@@ -7,3 +7,4 @@ flask-socketio==5.1.2
 wheel
 gunicorn
 gevent
+gevent-websocket
