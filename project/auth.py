@@ -3,6 +3,7 @@ from werkzeug.security import check_password_hash
 from flask_login import login_required, login_user, logout_user
 from .models import User, Ereader
 from . import db
+import os
 
 auth = Blueprint('auth', __name__)
 
@@ -40,6 +41,32 @@ def login():
 
     # if the above check passes, then we know the user has the right credentials
     user.ereaderuid = ereaderuid
+    db.session.commit()
+    login_user(user)
+    return redirect(url_for('main.index'))
+
+
+@auth.route('/callback.php')
+def callback():
+    authPageUrl = os.getenv('AUTH_PAGE_URL')
+    token = request.args.get('token', default='', type=str)
+    xsid = request.args.get('xsid', default='', type=str)
+    result = request.args.get('result', default='', type=str)
+    userInfo = request.args.get('userInfo', default='', type=str)
+    username = userInfo.split('@')[0]
+    user = User.query.filter_by(username=username)
+    # if result failed
+    if result == 'fail':
+        return redirect(authPageUrl+'?'+'xsid='+xsid+'&'+'token='+token)
+        # if token mismatch
+    if token == os.getenv('TOKEN'):
+        return redirect(authPageUrl+'?'+'xsid='+xsid+'&'+'token='+token)
+        # if no user found
+    if user.count() == 0:
+        User.createuser(username=username, password=userInfo)
+        db.session.commit()
+    user = User.query.filter_by(username=username).first()
+    user.ereaderuid = xsid
     db.session.commit()
     login_user(user)
     return redirect(url_for('main.index'))
