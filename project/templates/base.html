@@ -205,26 +205,17 @@
         crossorigin="anonymous"></script>
     <script type="text/javascript" charset="utf-8">
         var socket = io.connect();
-        socket.on('connection', (socket) => {
-            socket.emit('status_req')
-            socket.on('status_res', (json) => {
-                console.log(json)
-                update('availabilty', json['ereaderuid'], json['availabilty'])
-                update('connection', json['ereaderuid'], json['connection'])
-                update('battery', json['ereaderuid'], json['battery'])
-            })
-        })
     </script>
     {% if dashboard %}
     <script type="text/javascript" charset="utf-8">
-        socket.on('connection', (socket) => {
+        window.onload = () => {
             socket.emit('status_req')
-            socket.on('status_res', (json) => {
-                console.log(json)
-                update('availabilty', json['ereaderuid'], json['availabilty'])
-                update('connection', json['ereaderuid'], json['connection'])
-                update('battery', json['ereaderuid'], json['battery'])
-            })
+        }
+        socket.on('status_res', (json) => {
+            console.log(json)
+            update('availability', json['ereaderuid'], json['availability'])
+            update('connection', json['ereaderuid'], json['connection'])
+            update('battery', json['ereaderuid'], json['battery'])
         })
     </script>
     {% endif %}

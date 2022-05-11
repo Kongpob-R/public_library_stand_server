@@ -19,7 +19,7 @@
                 {% for device in ereader %}
                 <tr>
                     <td>{{device.short_name}}</td>
-                    <td id="availabilty-{{device.ereaderuid}}">Not available</td>
+                    <td id="availability-{{device.ereaderuid}}">Not available</td>
                     <td id="connection-{{device.ereaderuid}}">Offline</td>
                     <td id="battery-{{device.ereaderuid}}">Unknown</td>
                 </tr>
@@ -128,18 +128,6 @@
     </form>
 </div>
 <script type="text/javascript" charset="utf-8">
-    // function bookAction() {
-    //     const selectRows = document.getElementsByName('select-book')
-    //     var selectRowsChecked = []
-    //     for (var i=0; i<selectRows.length; i++) {
-    //         if(selectRows[i].checked) {
-    //             selectRowsChecked.push(selectRows[i].value)
-    //         }
-    //     }
-    //     console.log(document.getElementById('select-action').value)
-    //     console.log(selectRowsChecked)
-
-    // }
     function update(attribute, uid, value) {
         document.getElementById(attribute + '-' + uid).innerHTML = value
     }

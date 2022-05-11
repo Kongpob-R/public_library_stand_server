@@ -1,6 +1,6 @@
 from flask_socketio import emit
 from . import socketio, db
-from models import Book
+from .models import Book
 
 
 @socketio.on('get_download_url')

@@ -20,6 +20,7 @@ def create_app():
 
     db.init_app(app)
     socketio.init_app(app, cors_allowed_origins="*")
+    from . import events
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
