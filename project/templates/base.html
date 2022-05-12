@@ -204,9 +204,9 @@
         integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
         crossorigin="anonymous"></script> -->
     <script type="text/javascript" charset="utf-8">
-        var socket = new WebSocket('ws://' + window.location.host + '/socket')
+        var socket = new WebSocket("{{config['SOCK_PROTOCOL']}}" + window.location.host + '/socket')
         function connect() {
-            socket = new WebSocket('ws://' + window.location.host + '/socket')
+            socket = new WebSocket("{{config['SOCK_PROTOCOL']}}" + window.location.host + '/socket')
         }
         socket.onclose = function(e) {
             console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
@@ -220,6 +220,10 @@
                 connect();
             }, 1000);
         };
+        socket.addEventListener('message', event => {
+            const data = JSON.parse(event.data)
+            console.log(data)
+        })
     </script>
     {% if dashboard %}
     <script type="text/javascript" charset="utf-8">
@@ -228,7 +232,6 @@
         }
         socket.addEventListener('message', event => {
             const data = JSON.parse(event.data)
-            console.log(data)
             if (data['event'] == 'status_res') {
                 update('availability', data['ereaderuid'], data['availability'])
                 update('connection', data['ereaderuid'], data['connection'])

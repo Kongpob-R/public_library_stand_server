@@ -25,6 +25,8 @@ def create_app():
     app.config['SOCK_SERVER_OPTIONS'] = {'ping_interval': 25}
     app.config['AUTH_PAGE_URL'] = os.getenv('AUTH_PAGE_URL')
     app.config['TOKEN'] = os.getenv('TOKEN')
+    app.config['SOCK_PROTOCOL'] = os.getenv('SOCK_PROTOCOL')
+    app.config['DEVELOPMENT'] = os.getenv('DEVELOPMENT')
 
     db.init_app(app)
     sock.init_app(app)

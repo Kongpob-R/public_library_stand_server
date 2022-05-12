@@ -10,22 +10,17 @@
         <img class="liblogo" src=" {{ url_for('static', filename='Logo_lib_2016.png' ) }}"
             alt=" KMUTNB Central Library">
         <strong>Please log in with ICIT account</strong>
-        <!-- <form method="POST" id="login-form">
+        {%if config['DEVELOPMENT']%}
+        <form method="POST" id="login-form">
             <div class="row">
                 <input class="u-full-width" type="text" name="username" placeholder="Username" autofocus="">
             </div>
             <div class="row">
                 <input class="u-full-width" type="password" name="password" placeholder="Password">
             </div>
-            {% with messages = get_flashed_messages() %}
-            {% if messages %}
-            <div class="loginwarning">
-                {{ messages[0] }}
-            </div>
-            {% endif %}
-            {% endwith %}
             <button class="button-primary">Log in</button>
-        </form> -->
+        </form>
+        {%endif%}
         <pre></pre>
         <img class="icitlogo" src=" {{ url_for('static', filename='icit_account_logo.png' ) }}"
         alt=" KMUTNB Central Library">
@@ -44,7 +39,11 @@
     var displayText = 'UID :  '
     displayText += shortName ? shortName : 'Not found'
     document.getElementById('ereaderuid-text').innerHTML = displayText
-    document.getElementById('login-form').action = '/login?ereaderuid=' + ereaderuid
     document.getElementById('icit-login-btn').href = "{{config['AUTH_PAGE_URL']}}?token={{config['TOKEN']}}&xsid=" + ereaderuid
 </script>
+{%if config['DEVELOPMENT']%}
+<script type="text/javascript" charset="utf-8">
+    document.getElementById('login-form').action = '/login?ereaderuid=' + ereaderuid
+</script>
+{%endif%}
 {% endblock %}
