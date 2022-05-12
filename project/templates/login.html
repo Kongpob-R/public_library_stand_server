@@ -3,13 +3,14 @@
 {% block content %}
 <div class="container">
     {%for ereader in ereaders%}
-        <div style="display: none;" id="{{ereader.short_name}}">{{ereader.ereaderuid}}</div>
+    <div style="display: none;" id="{{ereader.short_name}}">{{ereader.ereaderuid}}</div>
     {%endfor%}
     <div id="ereaderuid-text"></div>
     <div class="loginbox">
-        <img src=" {{ url_for('static', filename='temp_lib_logo.png' ) }}" alt=" KMUTNB Central Library">
+        <img class="liblogo" src=" {{ url_for('static', filename='Logo_lib_2016.png' ) }}"
+            alt=" KMUTNB Central Library">
         <strong>Please log in with ICIT account</strong>
-        <form method="POST" id="login-form">
+        <!-- <form method="POST" id="login-form">
             <div class="row">
                 <input class="u-full-width" type="text" name="username" placeholder="Username" autofocus="">
             </div>
@@ -24,8 +25,13 @@
             {% endif %}
             {% endwith %}
             <button class="button-primary">Log in</button>
-            <a id="icit-login-btn" href="">login with ICIT</a>
-        </form>
+        </form> -->
+        <pre></pre>
+        <img class="icitlogo" src=" {{ url_for('static', filename='icit_account_logo.png' ) }}"
+            alt=" KMUTNB Central Library">
+        <a class="button button-primary" id="icit-login-btn" href="">
+            LOG IN
+        </a>
         <p>All downloadable resources from KMUTNB Central Library are reserved for students and personnel of King
             Mongkut’s University of Technology
             North Bangkok.</p>
