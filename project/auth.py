@@ -58,10 +58,10 @@ def callback():
     # if result failed
     if result == 'fail':
         return redirect(authPageUrl+'?'+'xsid='+xsid+'&'+'token='+token)
-        # if token mismatch
+    # if token mismatch
     if token == os.getenv('TOKEN'):
         return redirect(authPageUrl+'?'+'xsid='+xsid+'&'+'token='+token)
-        # if no user found
+    # if no user found
     if user.count() == 0:
         User.createuser(username=username, password=userInfo)
         db.session.commit()

@@ -3,8 +3,7 @@ python-dotenv==0.20.0
 flask-sqlalchemy==2.5.1 
 flask-login==0.6.0
 requests==2.27.1
-flask-socketio==5.1.2
+flask-sock
 wheel
 gunicorn
 gevent
-gevent-websocket

@@ -3,9 +3,7 @@
 {% block content %}
 <div class="container">
     {%for ereader in ereaders%}
-        <div style="display: none;" id="{{ereader.ereaderuid}}">
-            {{ereader.short_name}}
-        </div>
+        <div style="display: none;" id="{{ereader.short_name}}">{{ereader.ereaderuid}}</div>
     {%endfor%}
     <div id="ereaderuid-text"></div>
     <div class="loginbox">
@@ -26,6 +24,7 @@
             {% endif %}
             {% endwith %}
             <button class="button-primary">Log in</button>
+            <a id="icit-login-btn" href="">login with ICIT</a>
         </form>
         <p>All downloadable resources from KMUTNB Central Library are reserved for students and personnel of King
             Mongkut’s University of Technology
@@ -34,11 +33,12 @@
     </div>
 </div>
 <script type="text/javascript" charset="utf-8">
-    const ereaderuid = window.location.search.split('ereaderuid=')[1]
-    const shortName = document.getElementById(ereaderuid)?.innerHTML
+    const shortName = window.location.search.split('uid=')[1]
+    const ereaderuid = document.getElementById(shortName)?.textContent
     var displayText = 'UID :  '
     displayText += shortName ? shortName : 'Not found'
     document.getElementById('ereaderuid-text').innerHTML = displayText
     document.getElementById('login-form').action = '/login?ereaderuid=' + ereaderuid
+    document.getElementById('icit-login-btn').href = "{{config['AUTH_PAGE_URL']}}?token={{config['TOKEN']}}&xsid=" + ereaderuid
 </script>
 {% endblock %}

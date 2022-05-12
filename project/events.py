@@ -1,25 +1,20 @@
-from flask_socketio import emit
-from . import socketio, db
+from flask import json
+from . import sock, db
 from .models import Book
 
 
-@socketio.on('get_download_url')
-def handle_get_download_url(json):
-    book = db.session.query(Book).filter_by(
-        record_id=json['record_id']).first()
-    json = {
-        'ereaderuid': json['ereaderuid'],
-        'url': book.content
-    }
-    print(json)
-    emit('download', json)
-
-
-@socketio.on('status_req')
-def status_req():
-    emit('status_req')
-
-
-@socketio.on('status_res')
-def status_res(json):
-    emit('status_res', json)
+@sock.route('/socket')
+def socket(ws):
+    while True:
+        data = ws.receive()
+        data = json.loads(data)
+        if data['event'] == 'get_download_url':
+            book = db.session.query(Book).filter_by(
+                record_id=data['record_id']).first()
+            data = {
+                'event': 'download',
+                'ereaderuid': data['ereaderuid'],
+                'url': book.content
+            }
+        print(data)
+        ws.send(json.dumps(data))

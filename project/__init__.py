@@ -1,26 +1,33 @@
 import os
-from flask_socketio import SocketIO
+from flask_sock import Sock
 from dotenv import load_dotenv
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
+
+def load_events():
+    from . import events
+
+
 # init SQLAlchemy so we can use it later in our models
 db = SQLAlchemy()
-socketio = SocketIO(logger=True, engineio_logger=True, async_mode='gevent')
+sock = Sock()
 load_dotenv()
+load_events()
 
 
 def create_app():
     app = Flask(__name__)
-
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
         'SQLALCHEMY_DATABASE_URI')
+    app.config['SOCK_SERVER_OPTIONS'] = {'ping_interval': 25}
+    app.config['AUTH_PAGE_URL'] = os.getenv('AUTH_PAGE_URL')
+    app.config['TOKEN'] = os.getenv('TOKEN')
 
     db.init_app(app)
-    socketio.init_app(app, cors_allowed_origins="*")
-    from . import events
+    sock.init_app(app)
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
