@@ -20,7 +20,10 @@ def socket(ws):
             if not localQueue.empty():
                 data = localQueue.get()
                 print('emit', data)
-                ws.send(json.dumps(data))
+                try:
+                    ws.send(json.dumps(data))
+                except:
+                    break
 
     t1 = Thread(target=listenBoardcast)
     t1.start()
@@ -39,6 +42,8 @@ def socket(ws):
             print('add to queues', data)
             for q in queues:
                 q.put(data)
+        elif data['event'] == 'ping':
+            ws.send(json.dumps({'event': 'pong'}))
         else:
             print('add to queues', data)
             for q in queues:
