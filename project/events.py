@@ -1,9 +1,10 @@
+from curses import erasechar
 from queue import Queue
 from threading import Thread
 import time
 from flask import json
 from . import sock, db
-from .models import Book
+from .models import Book, Ereader
 
 
 queues = []
@@ -42,6 +43,12 @@ def socket(ws):
             print('add to queues', data)
             for q in queues:
                 q.put(data)
+        elif data['event'] == 'short_name_req':
+            ereaders = db.session.query(Ereader).all()
+            data = {'event': 'short_name_res'}
+            for device in ereaders:
+                data[device.ereaderuid] = device.short_name
+            ws.send(json.dumps(data))
         elif data['event'] == 'ping':
             ws.send(json.dumps({'event': 'pong'}))
         else:

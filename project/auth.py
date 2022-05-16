@@ -59,7 +59,7 @@ def callback():
     if result == 'fail':
         return redirect(authPageUrl+'?'+'xsid='+xsid+'&'+'token='+token)
     # if token mismatch
-    if token == os.getenv('TOKEN'):
+    if token != os.getenv('TOKEN'):
         return redirect(authPageUrl+'?'+'xsid='+xsid+'&'+'token='+token)
     # if no user found
     if user.count() == 0:
