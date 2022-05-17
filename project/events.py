@@ -41,7 +41,7 @@ def socket(ws):
                 'ereaderuid': data['ereaderuid'],
                 'user': data['user'],
                 'token': os.getenv('TOKEN'),
-                'title': book.title,
+                'title': book.best_title,
                 'url': book.content,
                 'isbn': book.isbn,
             }
@@ -61,7 +61,7 @@ def socket(ws):
             bookContentList = []
             for book in preDownloadList:
                 bookContent = {
-                    'title': book.title,
+                    'title': book.best_title,
                     'url': book.content,
                     'isbn': book.isbn,
                 }
