@@ -48,19 +48,29 @@ def login():
 
 @auth.route('/callback.php')
 def callback():
-    authPageUrl = os.getenv('AUTH_PAGE_URL')
+    ereaders = Ereader.query
+    # authPageUrl = os.getenv('AUTH_PAGE_URL')
     token = request.args.get('token', default='', type=str)
     xsid = request.args.get('xsid', default='', type=str)
     result = request.args.get('result', default='', type=str)
     userInfo = request.args.get('userinfo', default='', type=str)
     username = userInfo.split('@')[0]
     user = User.query.filter_by(username=username)
+    targetDevice = ereaders.filter_by(ereaderuid=xsid).first()
     # if result failed
     if result == 'fail':
-        return redirect(authPageUrl+'?'+'xsid='+xsid+'&'+'token='+token)
+        flash('Please check your login details and try again.')
+        return redirect(url_for('auth.login') + '?uid=' + targetDevice.short_name)
     # if token mismatch
     if token != os.getenv('TOKEN'):
-        return redirect(authPageUrl+'?'+'xsid='+xsid+'&'+'token='+token)
+        flash('Please check your login details and try again.')
+        return redirect(url_for('auth.login') + '?uid=' + targetDevice.short_name)
+    allEreaderuid = []
+    for ereader in ereaders.all():
+        allEreaderuid.append(ereader.ereaderuid)
+    if xsid not in allEreaderuid:
+        flash('Please check your E-reader devices UID and try again.')
+        return redirect(url_for('auth.login'))
     # if no user found
     if user.count() == 0:
         User.createuser(username=username, password=userInfo)

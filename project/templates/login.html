@@ -24,6 +24,13 @@
         <pre></pre>
         <img class="icitlogo" src=" {{ url_for('static', filename='icit_account_logo.png' ) }}"
         alt=" KMUTNB Central Library">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="loginwarning">
+                {{ messages[0] }}
+            </div>
+            {% endif %}
+        {% endwith %}
         <a class="button button-primary" id="icit-login-btn" href="">
             LOG IN
         </a>
