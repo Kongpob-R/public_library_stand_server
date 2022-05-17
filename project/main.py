@@ -64,6 +64,8 @@ def index():
 
     if matchBooks == []:
         recommendBooks = db.session.query(Book).filter_by(recommend=True)
+        for book in recommendBooks:
+            book.imageSrc = imageSrc.format(book.isbn)
 
     return render_template(
         'index.html',
