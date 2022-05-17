@@ -10,7 +10,7 @@ em {
 
 strong {
     font-family: "Roboto";
-    font-size: 18px;
+    font-size: 14px;
 }
 
 #ereaderuid-text {
@@ -91,7 +91,7 @@ strong {
 
 #profile {
     font-size: 40px;
-    padding: 1rem 2rem;
+    padding: 10px 0px;
 }
 
 input[type="search"] {
