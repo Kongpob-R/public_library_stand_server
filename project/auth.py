@@ -52,7 +52,7 @@ def callback():
     token = request.args.get('token', default='', type=str)
     xsid = request.args.get('xsid', default='', type=str)
     result = request.args.get('result', default='', type=str)
-    userInfo = request.args.get('userInfo', default='', type=str)
+    userInfo = request.args.get('userinfo', default='', type=str)
     username = userInfo.split('@')[0]
     user = User.query.filter_by(username=username)
     # if result failed

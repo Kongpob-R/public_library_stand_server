@@ -5,6 +5,7 @@ import time
 from flask import json
 from . import sock, db
 from .models import Book, Ereader
+import os
 
 
 queues = []
@@ -38,7 +39,9 @@ def socket(ws):
             data = {
                 'event': 'download',
                 'ereaderuid': data['ereaderuid'],
-                'url': book.content
+                'user': data['user'],
+                'url': book.content,
+                'token': os.getenv('TOKEN'),
             }
             print('add to queues', data)
             for q in queues:

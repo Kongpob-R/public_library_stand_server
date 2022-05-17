@@ -99,7 +99,8 @@
 		socket.send(JSON.stringify({
 			'event': 'get_download_url',
 			'record_id': '{{ book.record_id }}',
-			'ereaderuid': '{{ current_user.ereaderuid }}'
+			'ereaderuid': '{{ current_user.ereaderuid }}',
+			'user': '{{ current_user.username }}'
 		}))
 	}
 </script>
