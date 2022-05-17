@@ -18,6 +18,7 @@ def index():
     keyword = request.args.get('keyword', default='', type=str)
     category = request.args.get('category', default='', type=str)
     matchBooks = []
+    recommendBooks = []
     booksCount = 0
 
     if len(keyword) > 2 and len(category) == 0:
@@ -61,6 +62,9 @@ def index():
     for book in matchBooks:
         book.imageSrc = imageSrc.format(book.isbn)
 
+    if matchBooks == []:
+        recommendBooks = db.session.query(Book).filter_by(recommend=True)
+
     return render_template(
         'index.html',
         navbar=True,
@@ -69,7 +73,8 @@ def index():
         keyword=keyword,
         category=category,
         books=matchBooks,
-        booksCount=booksCount
+        booksCount=booksCount,
+        recommendBooks=recommendBooks
     )
 
 

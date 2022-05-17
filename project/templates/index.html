@@ -1,7 +1,38 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% if keyword|length < 3 and category|length==0 %} <div>keyword too short</div>
+{% if keyword|length < 3 and category|length==0 %} 
+<div>keyword too short</div>
+<pre></pre>
+<h4>Recommended Books</h4>
+  {% for book in recommendBooks %}
+  <div class="container">
+    <div class="bookcard">
+      <div class="row">
+        <div class="five columns" onclick="window.location.href='detail?record_id={{ book.record_id }}'">
+          <div class="bookcoverpre">
+            <img src="{{ book.imageSrc }}" alt="No bookcover">
+          </div>
+        </div>
+        <div class="five columns" onclick="window.location.href='detail?record_id={{ book.record_id }}'">
+          <p><strong>{{ book.best_title}}</strong></p>
+          <em>{{ book.best_author}}</em>
+          <p>{{ book.publish_year}}</p>
+        </div>
+        <div class="two columns">
+          <div class="downloadbutton">
+            <button class="button button-primary" onclick="sendDownload('{{ book.record_id }}')">
+              <span class="material-symbols-outlined">
+                file_download
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <pre></pre>
+  {% endfor %}
   {% elif books|length == 0 %}
   {% if category %}
   <div class="categorytag">
