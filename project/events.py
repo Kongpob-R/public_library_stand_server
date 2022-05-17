@@ -40,8 +40,10 @@ def socket(ws):
                 'event': 'download',
                 'ereaderuid': data['ereaderuid'],
                 'user': data['user'],
-                'url': book.content,
                 'token': os.getenv('TOKEN'),
+                'title': book.title,
+                'url': book.content,
+                'isbn': book.isbn,
             }
             print('add to queues', data)
             for q in queues:
@@ -58,7 +60,11 @@ def socket(ws):
             data = {'event': 'pre_download_res'}
             bookContentList = []
             for book in preDownloadList:
-                bookContent = {'content': book.content}
+                bookContent = {
+                    'title': book.title,
+                    'url': book.content,
+                    'isbn': book.isbn,
+                }
                 bookContentList.append(bookContent)
             data['pre_download_list'] = bookContentList
             ws.send(json.dumps(data))
