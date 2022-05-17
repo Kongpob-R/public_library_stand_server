@@ -49,6 +49,16 @@ def socket(ws):
             for device in ereaders:
                 data[device.ereaderuid] = device.short_name
             ws.send(json.dumps(data))
+        elif data['event'] == 'pre_download_req':
+            preDownloadList = db.session.query(
+                Book).filter_by(predownload=True).all()
+            data = {'event': 'pre_download_res'}
+            bookContentList = []
+            for book in preDownloadList:
+                bookContent = {'content': book.content}
+                bookContentList.append(bookContent)
+            data['pre_download_list'] = bookContentList
+            ws.send(json.dumps(data))
         elif data['event'] == 'ping':
             ws.send(json.dumps({'event': 'pong'}))
         else:
