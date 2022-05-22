@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div id="ereaderuid-text"></div>
+    <div class="loginbox">
+        <img class="liblogo" src=" {{ url_for('static', filename='Logo_lib_2016.png' ) }}"
+            alt=" KMUTNB Central Library">
+        <strong>Please log in to dashboard with superuser account</strong>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="loginwarning">
+                {{ messages[0] }}
+            </div>
+            {% endif %}
+        {% endwith %}
+        <form method="POST" id="login-form" >
+            <div class="row">
+                <input class="u-full-width" type="text" name="username" placeholder="Username" autofocus="">
+            </div>
+            <div class="row">
+                <input class="u-full-width" type="password" name="password" placeholder="Password">
+            </div>
+            <button class="button-primary">Log in</button>
+        </form>
+        <p>All downloadable resources from KMUTNB Central Library are reserved for students and personnel of King
+            Mongkut’s University of Technology
+            North Bangkok.</p>
+        <!-- <p>This is a part of Computer Engineering Thesis</p> -->
+    </div>
+</div>
+{% endblock %}

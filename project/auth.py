@@ -8,7 +8,7 @@ import os
 auth = Blueprint('auth', __name__)
 
 
-@auth.route('/login', methods=['GET', 'POST'])
+@auth.route('/login')
 def login():
     ereaders = Ereader.query.all()
     if request.method == 'GET':
@@ -16,10 +16,17 @@ def login():
             'login.html',
             ereaders=ereaders
         )
+
+
+@auth.route('/logindashboard', methods=['GET', 'POST'])
+def logindashboard():
+    if request.method == 'GET':
+        return render_template(
+            'login_dashboard.html',
+        )
     # login code goes here
     username = request.form.get('username')
     password = request.form.get('password')
-    ereaderuid = request.args.get('ereaderuid', default='', type=str)
 
     user = User.query.filter_by(username=username).first()
 
@@ -28,20 +35,16 @@ def login():
     if not user or not check_password_hash(user.password, password):
         flash('Please check your login details and try again.')
         # if the user doesn't exist or password is wrong, reload the page
-        return redirect(url_for('auth.login'))
+        return redirect(url_for('auth.logindashboard'))
     if user.role == 'superuser':
         login_user(user)
         return redirect(url_for('main.dashboard'))
-    allEreaderuid = []
-    for ereader in ereaders:
-        allEreaderuid.append(ereader.ereaderuid)
-    if ereaderuid not in allEreaderuid:
-        flash('Please check your E-reader devices UID and try again.')
-        return redirect(url_for('auth.login'))
+    elif user.role != 'superuser':
+        flash('you are not superuser')
+        # if the user doesn't exist or password is wrong, reload the page
+        return redirect(url_for('auth.logindashboard'))
 
     # if the above check passes, then we know the user has the right credentials
-    user.ereaderuid = ereaderuid
-    db.session.commit()
     login_user(user)
     return redirect(url_for('main.index'))
 
