@@ -102,6 +102,8 @@ def detail():
 def dashboard():
     if current_user.role != 'superuser':
         return current_app.login_manager.unauthorized()
+
+    keyword = request.args.get('keyword', default='', type=str)
     if request.method == 'POST':
         selectBooks = (request.form.getlist('select-book'))
         selectAction = (request.form.get('select-action'))
@@ -122,8 +124,23 @@ def dashboard():
         elif selectAction == 'clearRecommend':
             Book.query.update({Book.recommend: False})
         db.session.commit()
+        keyword = ''
+
     ereader = Ereader.query.all()
-    books = Book.query.limit(50).all()
+    inListBooks = db.session.query(Book).filter(
+        (Book.recommend == True) |
+        (Book.predownload == True)
+    ).all()
+    matchBooks = []
+    if len(keyword) > 2:
+        matchBooks = db.session.query(Book).filter(
+            Book.best_title_norm.contains(keyword) |
+            Book.best_author_norm.contains(keyword) |
+            Book.subject.contains(keyword) |
+            Book.bib_record_id.like(keyword)
+        )
+        matchBooks = matchBooks.all()
+    books = inListBooks + matchBooks
     return render_template(
         'dashboard.html',
         dashboard=True,

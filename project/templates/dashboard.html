@@ -65,20 +65,28 @@
 <!-- Just in case -->
 <div class="downloadedstat">
     <h3>Books List</h3>
-    <form id="form-action" method="post">
     <div class="row">
-        <div class="eight columns">
+        <form id="searchfield" method="get">
+        <div class="four columns">
+            <input id="searchtext" class="u-full-width" type="text" name="keyword" placeholder="Keyword & Bib_record_id Search">
+        </div> 
+        </form>
+        <div class="two columns">
+            <input id="search-btn" type="button" class="button-primary" value="search">
+        </div>
+    <form id="form-action" method="post">
+        <div class="four columns">
             <select class="u-full-width" name="select-action" id="select-action"> 
-                <option value="addPredownload">add selections to pre-download list</option>
-                <option value="removePredownload">remove selections from pre-download list</option>
-                <option value="addRecommend">add selections to recommend list</option>
-                <option value="removeRecommend">remove selections from recommend list</option>
-                <option value="clearRecommend">clear recommend list</option>
-                <option value="clearPredownload">clear pre-download list</option>
+                <option value="addPredownload">add to pre-downloaded book list</option>
+                <option value="removePredownload">remove from pre-downloaded book list</option>
+                <option value="addRecommend">add to recommended book list</option>
+                <option value="removeRecommend">remove from recommended book list</option>
+                <option value="clearRecommend">clear recommended book list</option>
+                <option value="clearPredownload">clear pre-downloaded book list</option>
             </select>
         </div>
-        <div class="four columns">
-            <input type="submit" class="button-primary" value="Go">
+        <div class="two columns">
+            <input type="submit" class="button-primary" value="submit">
         </div>
     </div>
     <div class="row">
@@ -86,9 +94,9 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th>No.</th>
-                    <th>Name</th>
-                    <th>Category/Subject</th>
+                    <th>Bib record ID</th>
+                    <th>Title</th>
+                    <th>LC Call Number</th>
                     <!-- <th>Number of download</th> -->
                     <!-- recommend on web -->
                     <th>Recommended</th>
@@ -104,7 +112,7 @@
                     </td>
                     <td>{{book.bib_record_id}}</td>
                     <td class="book title">{{book.best_title}}</td>
-                    <td>Unknown Category</td>
+                    <td>{{book.lc_callno}}</td>
                     <!-- <td>15</td> -->
                     <td class="book recommend">
                         <input type="checkbox" disabled="disabled"
@@ -128,6 +136,9 @@
     </form>
 </div>
 <script type="text/javascript" charset="utf-8">
+    document.getElementById('search-btn').onclick = () => {
+        document.getElementById('searchfield').submit()
+    }
     function update(attribute, uid, value) {
         document.getElementById(attribute + '-' + uid).innerHTML = value
     }
